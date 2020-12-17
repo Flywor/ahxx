@@ -31,7 +31,10 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import AffixData from '@/data/Affix.json'
+=======
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
 export default {
   props: {
     p: {
@@ -90,6 +93,7 @@ export default {
         })
       })
       return result
+<<<<<<< HEAD
     },
     affixList() {
       const result = []
@@ -103,6 +107,8 @@ export default {
         })
       })
       return result
+=======
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
     }
   }
 }
@@ -115,7 +121,11 @@ export default {
     display: flex;
     align-items: center;
     overflow: hidden;
+<<<<<<< HEAD
     &-left {
+=======
+    & > span {
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
       flex: 1;
     }
     &-opera {

@@ -43,19 +43,31 @@ import { DownOutlined } from '@ant-design/icons-vue'
 import XxImg from '@/assets/xx.jpg'
 import { moveToMap } from '@/api/player'
 import { battleStart } from '@/api/team'
+<<<<<<< HEAD
 import MapData from '@/data/Map.json'
 console.log(MapData)
+=======
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
 export default {
   components: { DownOutlined },
   data() {
     return {
+<<<<<<< HEAD
       mapData: MapData,
+=======
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
       XxImg,
       isBattle: false,
       autoBattleInetval: null
     }
   },
   computed: {
+<<<<<<< HEAD
+=======
+    mapData() {
+      return this.$store.state.mapData
+    },
+>>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
     isLeader() {
       return this.$store.state.isLeader
     },
