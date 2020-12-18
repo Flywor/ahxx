@@ -9,7 +9,7 @@ process.env.VUE_APP_TITLE = '封神'
 
 module.exports = {
   publicPath: '/',
-  outputDir: 'dist',
+  outputDir: 'www',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: true,

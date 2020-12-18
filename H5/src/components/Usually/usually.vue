@@ -7,27 +7,7 @@
       <a-button class="btn">技能</a-button>
     </div>
     <div class="usually-center">
-      <img :src="XxImg" />
-      <div v-if="!team || (team && isLeader)">
-        <a-dropdown :trigger="['click']">
-          <a class="ant-dropdown-link">
-            {{battleMap}}<DownOutlined />
-          </a>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item v-for="md in mapData" :key="md._id">
-                <a @click="() => handleSetBattleMap(md._id)">Lv{{md.lv}}.{{md.name}}</a>
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-        <a-button :type="isBattle?'danger':'primary'" class="btn" size="small" style="margin-left:12px" @click="handleStartBattle">
-          {{isBattle?'停止':'开始'}}修炼
-        </a-button>
-      </div>
-      <div v-else>
-        {{battleMap}}
-      </div>
+      <PetComponent />
     </div>
     <div class="usually-right">
       <a-button type="primary" class="btn">商店</a-button>
@@ -36,6 +16,26 @@
       <a-button type="primary" class="btn">资料</a-button>
     </div>
   </div>
+  <div class="choose-map" v-if="!team || (team && isLeader)">
+    <a-dropdown :trigger="['click']">
+      <a class="ant-dropdown-link">
+        {{battleMap}}<DownOutlined />
+      </a>
+      <template #overlay>
+        <a-menu>
+          <a-menu-item v-for="md in mapData" :key="md._id">
+            <a @click="() => handleSetBattleMap(md._id)">Lv{{md.lv}}.{{md.name}}</a>
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
+    <a-button :type="isBattle?'danger':'primary'" class="btn" size="small" style="margin-left:12px" @click="handleStartBattle">
+      {{isBattle?'停止':'开始'}}修炼
+    </a-button>
+  </div>
+  <div class="choose-map" v-else>
+    {{battleMap}}
+  </div>
 </template>
 
 <script>
@@ -43,31 +43,19 @@ import { DownOutlined } from '@ant-design/icons-vue'
 import XxImg from '@/assets/xx.jpg'
 import { moveToMap } from '@/api/player'
 import { battleStart } from '@/api/team'
-<<<<<<< HEAD
 import MapData from '@/data/Map.json'
-console.log(MapData)
-=======
->>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
+import PetComponent from '@/components/Pet/pet'
 export default {
-  components: { DownOutlined },
+  components: { DownOutlined, PetComponent },
   data() {
     return {
-<<<<<<< HEAD
       mapData: MapData,
-=======
->>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
       XxImg,
       isBattle: false,
       autoBattleInetval: null
     }
   },
   computed: {
-<<<<<<< HEAD
-=======
-    mapData() {
-      return this.$store.state.mapData
-    },
->>>>>>> 44580b7443fceeeacb97350fe17df1a30d78c872
     isLeader() {
       return this.$store.state.isLeader
     },
@@ -121,7 +109,6 @@ export default {
   display: flex;
   align-items: center;
   &-left, &-right {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -136,9 +123,13 @@ export default {
     }
   }
   &-center {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+}
+.choose-map {
+  text-align:center;
 }
 </style>

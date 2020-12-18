@@ -23,3 +23,9 @@ export async function dressEquip(equipId) {
   console.log('logic.playerHandler.dressEquip', data)
   return data
 }
+
+export async function sellEquip(equipId) {
+  const data = await game.send('logic.playerHandler.sellEquip', { equipId })
+  console.log('logic.playerHandler.sellEquip', data)
+  return data
+}

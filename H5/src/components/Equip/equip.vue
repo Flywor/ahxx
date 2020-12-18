@@ -23,7 +23,10 @@
           :equip="equip"
         >
           <a-button type="primary" size="small" @click="() => handleDressEquip(equip._id)">
-            穿戴
+            穿
+          </a-button>
+          <a-button type="danger" size="small" @click="() => handleSellEquip(equip._id)">
+            丢
           </a-button>
         </Shown>
         <p v-if="geted && total === 0">没装备，去挂机--吧</p>
@@ -37,7 +40,7 @@
 <script>
 import { defineComponent } from 'vue'
 import Shown from './shown'
-import { getEquip, dressEquip } from '@/api/player'
+import { getEquip, dressEquip, sellEquip } from '@/api/player'
 import { sleep } from '@/util/tools'
 export default defineComponent({
   components: { Shown },
@@ -61,18 +64,17 @@ export default defineComponent({
       return equip.find(e => e.type === type)
     },
     async handleGetEquip() {
-      this.equipLoading = true
-      await sleep(500)
       const { data } = await getEquip(this.page)
       this.geted = true
       this.equipList = data.list
       this.total = data.total
-      this.equipLoading = false
     },
     async handleDressEquip(id) {
-      this.equipLoading = true
-      await sleep(300)
       await dressEquip(id)
+      this.handleGetEquip()
+    },
+    async handleSellEquip(id) {
+      await sellEquip(id)
       this.handleGetEquip()
     }
   }

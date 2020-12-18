@@ -58,12 +58,14 @@ export default {
   },
   async send(route, data) {
     await sleep(() => ok)
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       pinus.request(route, data, (data) => {
         if (data.code !== 200) {
           message.error(data.msg)
+          reject()
+        } else {
+          resolve(data)
         }
-        resolve(data)
       })
     })
   }
