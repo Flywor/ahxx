@@ -81,7 +81,7 @@ export default createStore({
               if (use === '捕捉') {
                 action.content.push(`<a>${use}</a> <a>${b}</a> <a style="color: green">${buff}</a> <a style="color: red">${debuff}</a>`)
               } else {
-                action.content.push(`对 <a>${b}</a> 使用了 <a>${use}</a> 造成了 <a style="color:purple">${hurt}</a> 伤害 <a style="color: green">${buff}</a> <a style="color: red">${debuff}</a>`)
+                action.content.push(`对 <a>${b}</a> 使用了 <a>${use}</a> 造成了 <a style="color:purple">${hurt}</a> <a style="color: green">${buff}</a> <a style="color: red">${debuff}</a>`)
               }
             })
           }

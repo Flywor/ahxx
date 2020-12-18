@@ -76,7 +76,7 @@
             'unit': true,
             'unit-left': ii % 2 === 1,
             'unit-right': ii % 2 === 0,
-            'target-flag': selectedSkill.target == 0
+            'target-flag': (uu.hp_c > 0 && selectedSkill.target == 0)
           }"
           @click="() => handleSelectTarget(uu.id)"
         >
@@ -176,7 +176,7 @@ export default defineComponent({
     setInterval(() => {
       if (this.timeout >= 0) {
         this.timeout--
-        if (this.timeout === (this.maxRoundTimeout - 2) && this.autoBattle) {
+        if (this.timeout === (this.maxRoundTimeout - 3) && this.autoBattle) {
           this.playerAction = { ...this.$store.state.cachePlayerAction }
 
           if (!this.playerAction.playerSkill) {
@@ -191,7 +191,7 @@ export default defineComponent({
 
           this.sendRoundOperation()
         }
-        if (this.timeout <= 3) {
+        if (this.timeout < 3) {
           this.$store.commit('setAutoBattle', true)
         }
       }

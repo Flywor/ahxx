@@ -118,25 +118,17 @@ export default defineComponent({
       this.agiAttr = 0
     },
     async handleCreateTeam() {
-      this.teamLoading = true
       await createTeam()
-      this.teamLoading = false
     },
     async handleGetTeamList() {
-      this.teamLoading = true
       const list = await getTeamList()
       this.teamList = list
-      this.teamLoading = false
     },
     async handleLeaveTeam() {
-      this.teamLoading = true
       await leaveTeam()
-      this.teamLoading = false
     },
     async handleJoinTeam(leader) {
-      this.teamLoading = true
       await joinTeam(leader)
-      this.teamLoading = false
     }
   }
 })

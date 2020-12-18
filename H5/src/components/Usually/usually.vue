@@ -24,7 +24,7 @@
       <template #overlay>
         <a-menu>
           <a-menu-item v-for="md in mapData" :key="md._id">
-            <a @click="() => handleSetBattleMap(md._id)">Lv{{md.lv}}.{{md.name}}</a>
+            <a @click="() => handleSetBattleMap(md._id)">{{md.name}}</a>
           </a-menu-item>
         </a-menu>
       </template>
