@@ -20,7 +20,7 @@
       <Usually />
       <Battle v-if="$store.state.battle" />
     </div>
-    <div class="main-page-left">
+    <div class="main-page-right">
       <Equip />
     </div>
   </div>
@@ -69,17 +69,18 @@ export default defineComponent({
   }
 }
 .main-page {
+  height: calc(100% - 64px);
   width: 100%;
   display: flex;
   padding: 16px;
   &-left {
-    width: 300px;
+    width: 230px;
   }
   &-center {
     flex: 1;
   }
   &-right {
-    width: 0;
+    width: 300px;
   }
 }
 </style>
