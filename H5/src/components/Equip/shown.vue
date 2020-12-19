@@ -9,15 +9,15 @@
             </h3>
           </template>
           <template #content>
-            <p v-for="a in attrList" :key="a.key">
+            <div v-for="a in attrList" :key="a.key" class="info_style">
               <span style="padding-left:8px">{{a.key}} + {{a.value}}</span>
-            </p>
-            <p v-for="a in affixList" :key="a.key" :style="{ color: qualityMap[equip.quality].color }">
+            </div>
+            <div v-for="a in affixList" :key="a.key" :style="{ color: qualityMap[equip.quality].color }" class="info_style">
               <span style="padding-left:8px">{{a.key}} + {{a.value}}</span>
-            </p>
+            </div>
           </template>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
-          <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">{{showTitle}} [{{qualityMap[equip.quality].name}}]</span>
+          <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">[{{typeMap[equip.type][0]}}] {{showTitle}}</span>
         </a-popover>
         <template v-else>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
@@ -109,14 +109,18 @@ export default {
 </script>
 <style lang="less" scoped>
 .shown {
-  margin-bottom: 8px;
   height: 32px;
+  cursor: pointer;
   &-container {
     display: flex;
     align-items: center;
     overflow: hidden;
+    line-height: 32px;
     &-left {
       flex: 1;
+      .info_style{
+        display: inline-block;
+      }
     }
     &-opera {
       transition: transform .3s;

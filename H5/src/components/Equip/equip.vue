@@ -11,28 +11,6 @@
           卸下
         </a-button>
       </Shown>
-      <a-card class="equip" size="small" title="兵装库">
-        <template #extra>
-          <a
-            @click="handleGetEquip"
-          >刷新</a>
-        </template>
-        <Shown
-          v-for="(equip, i) in equipList"
-          :key="i"
-          :equip="equip"
-        >
-          <a-button type="primary" size="small" @click="() => handleDressEquip(equip._id)">
-            穿
-          </a-button>
-          <a-button type="danger" size="small" @click="() => handleSellEquip(equip._id)">
-            丢
-          </a-button>
-        </Shown>
-        <p v-if="geted && total === 0">没装备，去挂机--吧</p>
-        <p v-if="!geted">刷新获取装备</p>
-        <a-pagination simple hideOnSinglePage v-model:current="page" :total="total" @change="handleGetEquip"/>
-      </a-card>
     </a-card>
   </a-spin>
 </template>
@@ -41,7 +19,7 @@
 import { defineComponent } from 'vue'
 import Shown from './shown'
 import { getEquip, dressEquip, sellEquip } from '@/api/player'
-import { sleep } from '@/util/tools'
+// import { sleep } from '@/util/tools'
 export default defineComponent({
   components: { Shown },
   data() {
@@ -84,5 +62,10 @@ export default defineComponent({
 <style lang="less" scoped>
 .equip{
   width: 100%;
+}
+.equip_list{
+  width: 50%;
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
 }
 </style>

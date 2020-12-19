@@ -1,19 +1,20 @@
 <template>
   <div class="usually">
     <div class="usually-left">
-      <a-button class="btn">背包</a-button>
-      <a-button class="btn">合成</a-button>
-      <a-button class="btn">宠物</a-button>
-      <a-button class="btn">技能</a-button>
+      <a-button class="btn" @click="funcAction('兵库')">兵库</a-button>
+      <a-button class="btn" @click="funcAction('背包')">背包</a-button>
+      <a-button class="btn" @click="funcAction('合成')">合成</a-button>
+      <a-button class="btn" @click="funcAction('宠物')">宠物</a-button>
+      <a-button class="btn" @click="funcAction('技能')">技能</a-button>
     </div>
     <div class="usually-center">
-      <PetComponent />
+      <component :is="showCom"/>
     </div>
     <div class="usually-right">
-      <a-button type="primary" class="btn">商店</a-button>
-      <a-button type="primary" class="btn">摆摊</a-button>
-      <a-button type="primary" class="btn">任务</a-button>
-      <a-button type="primary" class="btn">资料</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('商店')">商店</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('摆摊')">摆摊</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('任务')">任务</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('资料')">资料</a-button>
     </div>
   </div>
   <div class="choose-map" v-if="!team || (team && isLeader)">
@@ -44,15 +45,47 @@ import XxImg from '@/assets/xx.jpg'
 import { moveToMap } from '@/api/player'
 import { battleStart } from '@/api/team'
 import MapData from '@/data/Map.json'
-import PetComponent from '@/components/Pet/pet'
+import PetComponent from '@/components/Pet/pet' // 宠物
+import Pocket from '@/components/Pocket/index.vue' // 背包
+import Skill from '@/components/Skill/index.vue' // 技能
+import Synthetic from '@/components/Synthetic/index.vue' // 合成
+import Weaponry from '@/components/Weaponry/index.vue' // 兵库
+import Shop from '@/components/Shop/index.vue' // 商店
+import Pedlat from '@/components/Pedlat/index.vue' // 摆摊
+import Task from '@/components/Task/index.vue' // 任务
+import Wiki from '@/components/Wiki/index.vue' // 百科
+
 export default {
-  components: { DownOutlined, PetComponent },
+  components: {
+    DownOutlined,
+    PetComponent,
+    Pocket,
+    Skill,
+    Synthetic,
+    Weaponry,
+    Shop,
+    Pedlat,
+    Task,
+    Wiki
+  },
   data() {
     return {
       mapData: MapData,
       XxImg,
       isBattle: false,
-      autoBattleInetval: null
+      autoBattleInetval: null,
+      showCom: 'Pocket',
+      commentType: {
+        '兵库': 'Weaponry',
+        '背包': 'Pocket',
+        '合成': 'Synthetic',
+        '宠物': 'PetComponent',
+        '技能': 'Skill',
+        '商店': 'Shop',
+        '摆摊': 'Pedlat',
+        '任务': 'Task',
+        '资料': 'Wiki'
+      }
     }
   },
   computed: {
@@ -98,6 +131,11 @@ export default {
     },
     handleSetBattleMap(mapid) {
       moveToMap(mapid)
+    },
+    // 功能按键
+    funcAction(action) {
+      console.log(action)
+      this.showCom = this.commentType[action]
     }
   }
 }
@@ -105,9 +143,11 @@ export default {
 
 <style lang="less" scoped>
 .usually{
+  height: 307px;
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 0 10px;
   &-left, &-right {
     display: flex;
     flex-direction: column;
@@ -123,10 +163,15 @@ export default {
     }
   }
   &-center {
+    width: 100%;
+    height: 100%;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 5px 20px;
+    // overflow-y: scroll;
+    overflow: hidden;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
   }
 }
 .choose-map {
