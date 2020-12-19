@@ -12,6 +12,12 @@ export async function assignAttr(attr = { con: 0, str: 0, vit: 0, agi: 0 }) {
   return data
 }
 
+export async function resetAttr() {
+  const data = await game.send('logic.playerHandler.resetAttr')
+  console.log('logic.playerHandler.resetAttr')
+  return data
+}
+
 export async function getEquip(page = 1) {
   const data = await game.send('logic.playerHandler.getEquip', { page })
   console.log('logic.playerHandler.getEquip', data)
