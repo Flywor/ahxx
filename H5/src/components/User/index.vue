@@ -17,6 +17,7 @@
       <a-card :title="`可分配属性点[${remainAttr}]`" style="width:100%;" size="small">
         <template #extra>
           <a v-if="remainAttr !== user.attrPoint" @click="handleSaveAssign">确定</a>
+          <a v-if="user.attrPoint === 0" @click="handleResetAssign">洗点</a>
         </template>
         <AttrComponent
           desc="体力"
@@ -81,7 +82,7 @@
 <script>
 import { defineComponent } from 'vue'
 import AttrComponent from './attr'
-import { assignAttr } from '@/api/player'
+import { assignAttr, resetAttr } from '@/api/player'
 import { createTeam, leaveTeam, joinTeam, getTeamList } from '@/api/team'
 export default defineComponent({
   components: { AttrComponent },
@@ -116,6 +117,9 @@ export default defineComponent({
       this.strAttr = 0
       this.vitAttr = 0
       this.agiAttr = 0
+    },
+    async handleResetAssign() {
+      resetAttr()
     },
     async handleCreateTeam() {
       await createTeam()
