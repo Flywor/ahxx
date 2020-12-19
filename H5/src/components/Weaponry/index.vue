@@ -1,49 +1,65 @@
 <template>
   <a-card :title="name" class="eq" size="small">
     <template #extra>
-      <span class="action_style">排序</span>
-      <span @click="handleGetEquip" class="action_style">刷新</span>
+      分解
+      <a-select
+        v-model:value="sellQuality"
+        style="width: 120px"
+        size="small"
+      >
+        <a-select-option v-for="qo in qualityOptions" :key="qo.key" :value="qo.value">
+          {{qo.label}}
+        </a-select-option>
+      </a-select>
+      <a-button type="primary" size="small" @click="handleSellEquipByQuality">
+        确定
+      </a-button>
+      <a @click="handleGetEquip" class="action_style">刷新</a>
     </template>
     <a-card-grid v-for="(item, index) in arr.equipList" :key="index" class="eq_item">
       <wapon :equip="item" >
-        <a-button type="primary" size="small" @click="() => handleDressEquip(item._id)">
+        <a-button type="primary" size="small" @click="() => handleDressEquip(item.id)">
           穿
         </a-button>
-        <a-button type="danger" size="small" @click="() => handleSellEquip(item._id)">
-          弃
+        <a-button type="danger" size="small" @click="() => handleSellEquip(item.id)">
+          卖
         </a-button>
       </wapon>
     </a-card-grid>
-    <!-- <p v-if="geted && total === 0">没装备，去挂机--吧</p>
-    <p v-else>刷新获取装备</p> -->
   </a-card>
 </template>
 
 <script>
 import { reactive, ref, defineComponent, onMounted } from 'vue'
-import { getEquip, dressEquip, sellEquip } from '@/api/player'
+import { getEquip, dressEquip, sellEquip, sellEquipByQuality } from '@/api/player'
+import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
-
+import GoodsData from '@/data/Goods.json'
+const qualityOptions = [
+  { value: 0, label: '普通' },
+  { value: 1, label: '稀有' },
+  { value: 2, label: '神话' },
+  { value: 3, label: '传说' },
+  { value: 4, label: '不朽' },
+  { value: 5, label: '至宝' }
+]
 export default defineComponent({
   components: {
     wapon
   },
   setup() {
-    const name = ref('兵装')
-    // const geted = ref(false)
+    const name = ref('装备')
     const arr = reactive({
       equipList: []
     })
     onMounted(() => {
       handleGetEquip()
     })
-    const page = ref(1)
+    const sellQuality = ref(qualityOptions[0].value)
     const total = ref(0)
     const handleGetEquip = async() => {
-      const { data } = await getEquip(page.value)
-      // geted.value = true
+      const { data } = await getEquip(1)
       arr.equipList = data.list
-      console.log(data.list)
       total.value = data.total
     }
     const handleDressEquip = async(id) => {
@@ -51,18 +67,28 @@ export default defineComponent({
       handleGetEquip()
     }
     const handleSellEquip = async(id) => {
-      await sellEquip(id)
+      const { data: { gold, materialCount } } = await sellEquip(id)
       handleGetEquip()
+      message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
+    }
+    const handleSellEquipByQuality = async() => {
+      if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
+        return
+      }
+      const { data: { gold, materialCount } } = await sellEquipByQuality(sellQuality.value)
+      handleGetEquip()
+      message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }
     return {
       name,
-      // geted,
       arr,
-      page,
       total,
       handleGetEquip,
       handleDressEquip,
-      handleSellEquip
+      handleSellEquip,
+      handleSellEquipByQuality,
+      sellQuality,
+      qualityOptions
     }
   }
 })

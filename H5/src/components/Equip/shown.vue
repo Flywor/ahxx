@@ -2,22 +2,27 @@
   <div class="shown">
     <div class="shown-container">
       <div class="shown-container-left">
-        <a-popover v-if="equip" placement="left">
+        <a-popover v-if="equip">
           <template #title>
             <h3 :style="{ color: qualityMap[equip.quality].color }">
               {{equip.name}}
             </h3>
           </template>
           <template #content>
+            <div class="info_style">
+              {{qualityMap[equip.quality].name}}{{typeMap[equip.type]}}
+            </div>
             <div v-for="a in attrList" :key="a.key" class="info_style">
-              <span style="padding-left:8px">{{a.key}} + {{a.value}}</span>
+              {{a.key}} + {{a.value}}
             </div>
             <div v-for="a in affixList" :key="a.key" :style="{ color: qualityMap[equip.quality].color }" class="info_style">
-              <span style="padding-left:8px">{{a.key}} + {{a.value}}</span>
+              {{a.key}} + {{a.value}}
             </div>
           </template>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
-          <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">[{{typeMap[equip.type][0]}}] {{showTitle}}</span>
+          <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">
+            <template v-if="p === undefined">[{{typeMap[equip.type]}}]</template> {{showTitle}}
+          </span>
         </a-popover>
         <template v-else>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
@@ -35,12 +40,10 @@ import AffixData from '@/data/Affix.json'
 export default {
   props: {
     p: {
-      type: Number,
-      default: -1
+      type: Number
     },
     equip: {
-      type: Object,
-      default: null
+      type: Object
     }
   },
   data() {
@@ -99,7 +102,7 @@ export default {
         const a = AffixData.find(aff => aff.value === key)
         result.push({
           key: a.mark,
-          value: val < 1 ? `${val * 100}%` : val
+          value: val < 1 ? `${Math.round(val * 100)}%` : val
         })
       })
       return result
@@ -118,9 +121,6 @@ export default {
     line-height: 32px;
     &-left {
       flex: 1;
-      .info_style{
-        display: inline-block;
-      }
     }
     &-opera {
       transition: transform .3s;
@@ -132,5 +132,8 @@ export default {
       transform: translateX(0)
     }
   }
+}
+.info_style{
+  padding-left: 8px;
 }
 </style>
