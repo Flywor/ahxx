@@ -3,7 +3,7 @@
     <div class="info-box">
       <div class="detail">
         <h3>Lv.{{user.lv}} {{user.username}}</h3>
-        <div>经验：{{user.exp_c}}/{{user.exp}}</div>
+        <div>经验：{{user.exp_c}}/{{user.exp}}<a style="margin-left: 16px;" v-show="user.exp_c > user.exp" @click="handleLevelUp">升级</a></div>
         <div>金币：{{user.gold}}</div>
         <div>血量：{{user.hp}}</div>
         <div>攻击：{{user.atk}}</div>
@@ -82,7 +82,7 @@
 <script>
 import { defineComponent } from 'vue'
 import AttrComponent from './attr'
-import { assignAttr, resetAttr } from '@/api/player'
+import { assignAttr, resetAttr, levelUp } from '@/api/player'
 import { createTeam, leaveTeam, joinTeam, getTeamList } from '@/api/team'
 export default defineComponent({
   components: { AttrComponent },
@@ -125,14 +125,17 @@ export default defineComponent({
       await createTeam()
     },
     async handleGetTeamList() {
-      const list = await getTeamList()
-      this.teamList = list
+      const { data } = await getTeamList()
+      this.teamList = data
     },
     async handleLeaveTeam() {
       await leaveTeam()
     },
     async handleJoinTeam(leader) {
       await joinTeam(leader)
+    },
+    handleLevelUp() {
+      levelUp()
     }
   }
 })
