@@ -89,10 +89,19 @@
       </div>
     </div>
   </div>
-  <h3 v-if="round > 1">&nbsp;&nbsp;战况：第{{round - 1}}回合</h3>
-  <div v-for="(act, i) in actions" :key="`actions-${i}`">
-    <label v-html="act.title" />：
-    <label v-html="act.content.join('，')" />
+  <div class="info">
+    <div class="battle_info">
+      <h3 v-if="round > 1">&nbsp;&nbsp;战况：第{{round - 1}}回合</h3>
+      <div v-for="(act, i) in actions" :key="`actions-${i}`">
+        <label v-html="act.title" />：
+        <label v-html="act.content.join('，')" />
+      </div>
+    </div>
+    <div class="end_info">
+      推送战斗总结
+      <div v-for="(item, index) in battleEarnings" :key='index'>{{`第${index+1}次战斗获得${item}`}}</div>
+      <div id="info_end" style="height:0px; overflow:hidden" ref="end"/>
+    </div>
   </div>
 </template>
 
@@ -170,6 +179,9 @@ export default defineComponent({
     },
     isEnd() {
       return this.battle.end
+    },
+    battleEarnings() {
+      return this.$store.state.earnings
     }
   },
   mounted() {
@@ -206,6 +218,17 @@ export default defineComponent({
         this.timeout = this.maxRoundTimeout
         this.showPlayerAction = true
       }
+    },
+    'battleEarnings': {
+      handler(val) {
+        if (val.length) {
+          const dom = this.$refs.end
+          console.log(dom)
+          dom.scrollIntoView()
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
@@ -356,6 +379,18 @@ export default defineComponent({
   .center {
     text-align: center;
     width: 80px;
+  }
+}
+.info{
+  width: 100%;
+  height: calc(100vh - 760px);
+  display: flex;
+  .battle_info{
+    width: 50%;
+  }
+  .end_info{
+    height: 100%;
+    overflow-y: scroll;
   }
 }
 </style>
