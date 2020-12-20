@@ -70,19 +70,35 @@ export default createStore({
         acts.map((act, index) => {
           const a = `Lv.${act.actorLv} ${act.actor}`
           const action = { title: `【${index + 1}】<a>${a}</a>`, content: [] }
+          if (act.beforeRound) {
+            action.content.push(act.beforeRound)
+          }
           const use = act.skill
-          action.content.push(`使用了<a>${use}</a>`)
-          act.target.map(t => {
-            const b = `Lv.${t.lv} ${t.name}`
-            const hurt = t.hurt
-            const buff = t.buff.join('，')
-            const debuff = t.debuff.join('，')
-            if (use === '捕捉') {
-              action.content.push(`<a>${use}</a> <a>${b}</a><a style="color: green">${buff}</a><a style="color: red">${debuff}</a>`)
+          if (use) {
+            if (act.target.length > 0) {
+              act.target.map(t => {
+                if (action.content.length !== 0) {
+                  action.content.push('，')
+                }
+                const b = `Lv.${t.lv} ${t.name}`
+                const hurt = t.hurt
+                const buff = t.buff.join(' ')
+                const debuff = t.debuff.join(' ')
+                action.content.push(`对 <a>${b}</a> 使用 <a>${use}</a> `)
+                if (hurt > -1) {
+                  action.content.push(`造成 <a style="color:purple">${hurt}</a> `)
+                }
+                if (buff) {
+                  action.content.push(`<a style="color: green">${buff}</a>`)
+                }
+                if (debuff) {
+                  action.content.push(`<a style="color: red">${debuff}</a>`)
+                }
+              })
             } else {
-              action.content.push(`对<a>${b}</a>造成了<a style="color:purple">${hurt}</a><a style="color: red">${debuff}</a><a style="color: green">${buff}</a>`)
+              action.content.push(`使用了<a>${use}</a>`)
             }
-          })
+          }
           actions.push(action)
         })
       }

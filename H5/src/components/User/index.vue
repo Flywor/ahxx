@@ -9,10 +9,10 @@
         <div>攻击：{{user.atk}}</div>
         <div>防御：{{user.def}}</div>
         <div>速度：{{user.speed}}</div>
-        <div>经验倍率：{{user.expRate * 100}}%</div>
-        <div>装备爆率：{{user.dropRate * 100}}%</div>
-        <div>暴击几率：{{user.critsRate * 100}}%</div>
-        <div>暴击伤害：{{user.critsDamageRate * 100}}%</div>
+        <div>经验倍率：{{Math.round(user.expRate * 100)}}%</div>
+        <div>装备爆率：{{Math.round(user.dropRate * 100)}}%</div>
+        <div>暴击几率：{{Math.round(user.critsRate * 100)}}%</div>
+        <div>暴击伤害：{{Math.round(user.critsDamageRate * 100)}}%</div>
       </div>
       <a-card :title="`可分配属性点[${remainAttr}]`" style="width:100%;" size="small">
         <template #extra>

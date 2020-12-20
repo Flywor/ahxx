@@ -1,30 +1,24 @@
 import game from '../util/game.js'
 
 export async function getTeamList(x, y) {
-  const data = await game.send('logic.teamHandler.getTeamList')
-  console.log('logic.teamHandler.getTeamList', data)
+  return await game.send('logic.teamHandler.getTeamList')
   return data.data
 }
 
 export async function createTeam() {
-  const data = await game.send('logic.teamHandler.createTeam')
-  console.log('map.teamHandler.createTeam', data)
+  return await game.send('logic.teamHandler.createTeam')
 }
 
 export async function leaveTeam() {
-  const data = await game.send('logic.teamHandler.leaveTeam')
-  console.log('map.teamHandler.leaveTeam', data)
+  return await game.send('logic.teamHandler.leaveTeam')
 }
 
 export async function joinTeam(leader) {
-  const data = await game.send('logic.teamHandler.joinTeam', { leader })
-  console.log('map.teamHandler.joinTeam', data)
+  return await game.send('logic.teamHandler.joinTeam', { leader })
 }
 
 export async function battleStart(mapid) {
-  const data = await game.send('logic.teamHandler.battleStart', { mapid })
-  console.log('logic.teamHandler.battleStart', data)
-  return data
+  return await game.send('logic.teamHandler.battleStart', { mapid })
 }
 
 export async function roundMonsterOperation(playerAction = {
@@ -33,7 +27,5 @@ export async function roundMonsterOperation(playerAction = {
   petSkill: null,
   petTarget: null
 }) {
-  const data = await game.send('logic.teamHandler.roundMonsterOperation', playerAction)
-  console.log('logic.teamHandler.roundMonsterOperation', data)
-  return data
+  return await game.send('logic.teamHandler.roundMonsterOperation', playerAction)
 }

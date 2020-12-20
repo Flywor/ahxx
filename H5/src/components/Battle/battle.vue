@@ -13,16 +13,20 @@
           自动战斗
         </a-checkbox>
       </p>
-      <a-button
-        class="battle-skill-container-item"
-        v-for="skill in actionSkill"
-        :key="skill.id"
-        :disabled="isEnd || !showPlayerAction"
-        :type="selectedSkill.id === skill.id ? 'primary': null"
-        @click="() => handleSelectSkill(skill)"
-      >
-        {{skill.name}}
-      </a-button>
+      <a-popover :title="skill.name" v-for="skill in actionSkill" :key="skill.id">
+        <template #content>
+          <span style="padding-left: 8px;">{{skill.mark || skill.name}}</span>
+        </template>
+        <a-button
+          class="battle-skill-container-item"
+
+          :disabled="isEnd || !showPlayerAction"
+          :type="selectedSkill.id === skill.id ? 'primary': null"
+          @click="() => handleSelectSkill(skill)"
+        >
+          {{skill.name}}
+        </a-button>
+      </a-popover>
     </div>
   </div>
   <div class="battle">
