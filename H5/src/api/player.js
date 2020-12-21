@@ -32,3 +32,12 @@ export async function sellEquipByQuality(quality) {
 export async function getProp(page = 1) {
   return await game.send('logic.playerHandler.getProp', { page })
 }
+
+export async function levelUp() {
+  return await game.send('logic.playerHandler.levelUp')
+}
+
+export async function useProp(propId) {
+  return await game.send('logic.playerHandler.useProp', { propId })
+}
+

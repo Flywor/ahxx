@@ -1,5 +1,6 @@
 import store from '../store/index'
 import { message } from 'ant-design-vue'
+import GoodsData from '@/data/Goods.json'
 // ws路由推送处理
 export default {
   // 用户完整信息 -- 推送当前用户 -- 登录触发
@@ -37,7 +38,14 @@ export default {
     store.commit('setBattle', null)
     store.commit('setActions', null)
     if (!data.fail) {
-      message.info(`获得经验${data.exp}${data.goods.length ? `，获得物品${data.goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
+      const goods = []
+      if (data.goods) {
+        data.goods.map(gdsId => {
+          const gds = GoodsData.find(gd => gd._id === gdsId) || {}
+          goods.push(gds.name || '未知物品')
+        })
+      }
+      message.info(`获得经验${data.exp}${goods.length ? `，获得物品${goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
     }
     store.commit('collectEarnings', `获得经验${data.exp}${data.goods.length ? `，获得物品${data.goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
   }

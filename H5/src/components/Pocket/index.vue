@@ -4,19 +4,26 @@
       <a @click="handleGetProps" class="action_style">刷新</a>
     </template>
     <a-card-grid :hoverable="false" v-for="(item, index) in content.arr" :key="index" class="pocket_item">
-      <a-popover>
-        <template #title>
-          <h3 :style="{ color: qualityMap[item.quality].color }">
-            {{item.name}}
-          </h3>
-        </template>
-        <template #content>
-          <div style="padding-left: 8px;">
-            {{item.mark}}
-          </div>
-        </template>
-        <span :style="{ color: qualityMap[item.quality].color }">{{item.name}}</span>x{{item.count}}
-      </a-popover>
+      <div class="left">
+        <a-popover>
+          <template #title>
+            <h3 :style="{ color: qualityMap[item.quality].color }">
+              {{item.name}}
+            </h3>
+          </template>
+          <template #content>
+            <div style="padding-left: 8px;">
+              {{item.mark}}
+            </div>
+          </template>
+          <span :style="{ color: qualityMap[item.quality].color }">{{item.name}}</span>x{{item.count}}
+        </a-popover>
+      </div>
+      <div class="right" v-if="item.type === 0">
+        <a-button type="primary" size="small" @click="() => handleUseProp(item)">
+          使用
+        </a-button>
+      </div>
     </a-card-grid>
   </a-card>
 </template>
@@ -24,7 +31,8 @@
 // TODO 线上显示不出来不知道为啥
 import GoodsData from '@/data/Goods.json'
 import { reactive, ref, onMounted } from 'vue'
-import { getProp } from '@/api/player'
+import { getProp, useProp } from '@/api/player'
+import { message } from 'ant-design-vue'
 const name = ref('背包')
 const content = reactive({
   arr: [],
@@ -43,16 +51,22 @@ const handleGetProps = async() => {
   content.arr = data.list.map(l => {
     const g = GoodsData.find(g => l.goodsId === g._id)
     return {
-      id: l._id,
+      id: l.id,
       count: l.count,
       name: g.name,
       mark: g.mark,
       lv: g.lv,
       type: g.type,
-      quality: g.quality
+      quality: g.quality,
+      attr: JSON.parse(g.attr)
     }
   })
   content.total = data.total
+}
+const handleUseProp = async (item) => {
+  await useProp(item.id)
+  message.success('使用成功')
+  this.handleGetProps()
 }
 
 onMounted(() => {
@@ -68,9 +82,22 @@ onMounted(() => {
   margin-right: -10px;
 }
 /deep/ .ant-card-grid{
-  padding: 10px;
-  width: 12.5%;
-  text-align: center;
+  padding: 8px;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  .left {
+    flex: 1;
+  }
+  .right {
+    transition: transform .3s;
+    transform: translateX(150%)
+  }
+  &:hover {
+    .right {
+      transform: translateX(0)
+    }
+  }
 }
 .pocket_item{
   overflow: hidden;

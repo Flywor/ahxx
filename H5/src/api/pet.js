@@ -11,3 +11,7 @@ export async function switchPetStatus(petId) {
 export async function discardPet(petId) {
   return await game.send('logic.petHandler.discardPet', { petId })
 }
+
+export async function rebornPet(petId) {
+  return await game.send('logic.petHandler.rebornPet', { petId })
+}
