@@ -121,6 +121,9 @@ export default {
     line-height: 32px;
     &-left {
       flex: 1;
+      overflow: hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
     }
     &-opera {
       transition: transform .3s;
