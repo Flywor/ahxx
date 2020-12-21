@@ -66,7 +66,7 @@ const handleGetProps = async() => {
 const handleUseProp = async (item) => {
   await useProp(item.id)
   message.success('使用成功')
-  this.handleGetProps()
+  handleGetProps()
 }
 
 onMounted(() => {
