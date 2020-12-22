@@ -7,7 +7,7 @@
         :p="type"
         :equip="getEquipByType(equip, type)"
       >
-        <a-button type="danger" size="small" @click="() => handleDressEquip(getEquipByType(equip, type)._id)">
+        <a-button type="danger" size="small" @click="() => handleDressEquip(getEquipByType(equip, type).id)">
           卸下
         </a-button>
       </Shown>

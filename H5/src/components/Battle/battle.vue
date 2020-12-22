@@ -99,14 +99,14 @@
         <h3 v-if="round > 0">&nbsp;&nbsp;战况：第{{round}}回合</h3>
         <div v-for="(act, i) in actions" :key="`actions-${i}`">
           <label v-html="act.title" />：
-          <label v-html="act.content.join('，')" />
+          <label v-html="act.content.join('')" />
         </div>
       </div>
     </div>
     <div class="end_info">
       推送战斗总结
-      <div v-for="(item, index) in battleEarnings" :key='index'>{{`第${index+1}次战斗获得:${item}`}}</div>
-      <div id="info_end" style="height:20px; overflow:hidden;" ref="end"/>
+      <div v-for="(item, index) in battleEarnings" :key='index'>{{item}}</div>
+      <!-- <div id="info_end" style="height:20px; overflow:hidden;" ref="end"/> -->
     </div>
   </div>
 </template>
@@ -229,16 +229,16 @@ export default defineComponent({
         this.showPlayerAction = true
       }
     },
-    'battleEarnings': {
-      handler(val) {
-        if (val.length) {
-          const dom = this.$refs.end
-          dom.scrollIntoView({ block: 'end' })
-        }
-      },
-      deep: true,
-      immediate: true
-    },
+    // 'battleEarnings': {
+    //   handler(val) {
+    //     if (val.length) {
+    //       const dom = this.$refs.end
+    //       dom.scrollIntoView({ block: 'end' })
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     '$store.state.battle': {
       handler(val) {
         if (val) {

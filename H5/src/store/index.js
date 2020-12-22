@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { formatDate } from '@/util/tools'
 export default createStore({
   state: {
     isLogin: false,
@@ -82,8 +83,8 @@ export default createStore({
                 }
                 const b = `Lv.${t.lv} ${t.name}`
                 const hurt = t.hurt
-                const buff = t.buff.join(' ')
-                const debuff = t.debuff.join(' ')
+                const buff = t.buff.join('')
+                const debuff = t.debuff.join('')
                 action.content.push(`对 <a>${b}</a> 使用 <a>${use}</a> `)
                 if (hurt > -1) {
                   action.content.push(`造成 <a style="color:purple">${hurt}</a> `)
@@ -110,7 +111,7 @@ export default createStore({
     },
     // 统计战斗收益
     collectEarnings(state, data) {
-      state.earnings.push(data)
+      state.earnings.unshift(`${formatDate(new Date(), 'hh:mm:ss')} ${data}`)
     },
     // 清空战斗信息
     clearEarnings(state, data) {
