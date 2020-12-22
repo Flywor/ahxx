@@ -111,6 +111,10 @@ export default createStore({
     // 统计战斗收益
     collectEarnings(state, data) {
       state.earnings.push(data)
+    },
+    // 清空战斗信息
+    clearEarnings(state, data) {
+      state.earnings = []
     }
   },
   actions: {},
