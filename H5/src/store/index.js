@@ -13,7 +13,8 @@ export default createStore({
     battlePet: {},
     battle: null,
     actions: [],
-    combatGains: null
+    combatGains: null,
+    earnings: []
   },
   mutations: {
     setLogin(state, islogin) {
@@ -106,6 +107,14 @@ export default createStore({
     // 回合收益数据
     setCombatGains(state, combatGains) {
       state.combatGains = combatGains
+    },
+    // 统计战斗收益
+    collectEarnings(state, data) {
+      state.earnings.push(data)
+    },
+    // 清空战斗信息
+    clearEarnings(state, data) {
+      state.earnings = []
     }
   },
   actions: {},

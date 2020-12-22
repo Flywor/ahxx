@@ -27,17 +27,13 @@
     </a-card-grid>
   </a-card>
 </template>
-<script setup>
+<script>
 // TODO 线上显示不出来不知道为啥
 import GoodsData from '@/data/Goods.json'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, defineComponent } from 'vue'
 import { getProp, useProp } from '@/api/player'
 import { message } from 'ant-design-vue'
-const name = ref('背包')
-const content = reactive({
-  arr: [],
-  total: 0
-})
+
 const qualityMap = {
   0: { color: 'rgba(0, 0, 0, 0.65)', name: '普通' },
   1: { color: '#3650D4', name: '稀有' },
@@ -46,31 +42,48 @@ const qualityMap = {
   4: { color: '#C38026', name: '不朽' },
   5: { color: '#7BB148', name: '至宝' }
 }
-const handleGetProps = async() => {
-  const { data } = await getProp(1)
-  content.arr = data.list.map(l => {
-    const g = GoodsData.find(g => l.goodsId === g._id)
-    return {
-      id: l.id,
-      count: l.count,
-      name: g.name,
-      mark: g.mark,
-      lv: g.lv,
-      type: g.type,
-      quality: g.quality,
-      attr: JSON.parse(g.attr)
-    }
-  })
-  content.total = data.total
-}
-const handleUseProp = async (item) => {
-  await useProp(item.id)
-  message.success('使用成功')
-  handleGetProps()
-}
 
-onMounted(() => {
-  handleGetProps()
+export default defineComponent({
+  setup() {
+    const name = ref('背包')
+    const content = reactive({
+      arr: [],
+      total: 0
+    })
+    const handleGetProps = async() => {
+      const { data } = await getProp(1)
+      content.arr = data.list.map(l => {
+        const g = GoodsData.find(g => l.goodsId === g._id)
+        return {
+          id: l.id,
+          count: l.count,
+          name: g.name,
+          mark: g.mark,
+          lv: g.lv,
+          type: g.type,
+          quality: g.quality,
+          attr: JSON.parse(g.attr)
+        }
+      })
+      content.total = data.total
+    }
+    const handleUseProp = async(item) => {
+      await useProp(item.id)
+      message.success('使用成功')
+      handleGetProps()
+    }
+
+    onMounted(() => {
+      handleGetProps()
+    })
+    return {
+      name,
+      content,
+      qualityMap,
+      handleUseProp,
+      handleGetProps
+    }
+  }
 })
 
 </script>
@@ -101,6 +114,7 @@ onMounted(() => {
 }
 .pocket_item{
   overflow: hidden;
+  cursor: pointer;
 }
 .pocket{
   height: 100%;

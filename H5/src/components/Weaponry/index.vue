@@ -1,7 +1,6 @@
 <template>
   <a-card :title="name" class="eq" size="small">
     <template #extra>
-      分解
       <a-select
         v-model:value="sellQuality"
         style="width: 120px"
@@ -12,7 +11,7 @@
         </a-select-option>
       </a-select>
       <a-button type="primary" size="small" @click="handleSellEquipByQuality">
-        确定
+        确定分解
       </a-button>
       <a @click="handleGetEquip" class="action_style">刷新</a>
     </template>
@@ -22,7 +21,7 @@
           穿
         </a-button>
         <a-button type="danger" size="small" @click="() => handleSellEquip(item.id)">
-          卖
+          售
         </a-button>
       </wapon>
     </a-card-grid>
@@ -34,7 +33,7 @@ import { reactive, ref, defineComponent, onMounted } from 'vue'
 import { getEquip, dressEquip, sellEquip, sellEquipByQuality } from '@/api/player'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
-import GoodsData from '@/data/Goods.json'
+// import GoodsData from '@/data/Goods.json'
 const qualityOptions = [
   { value: 0, label: '普通' },
   { value: 1, label: '稀有' },
@@ -67,7 +66,7 @@ export default defineComponent({
       handleGetEquip()
     }
     const handleSellEquip = async(id) => {
-      const { data: { gold, materialCount } } = await sellEquip(id)
+      const { data: { gold, materialCount }} = await sellEquip(id)
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }
@@ -75,7 +74,7 @@ export default defineComponent({
       if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
         return
       }
-      const { data: { gold, materialCount } } = await sellEquipByQuality(sellQuality.value)
+      const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }

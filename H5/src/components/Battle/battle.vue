@@ -19,7 +19,7 @@
         </template>
         <a-button
           class="battle-skill-container-item"
-          
+
           :disabled="isEnd || !showPlayerAction"
           :type="selectedSkill.id === skill.id ? 'primary': null"
           @click="() => handleSelectSkill(skill)"
@@ -29,74 +29,85 @@
       </a-popover>
     </div>
   </div>
-  <div class="battle">
-    <div class="left">
-      <div
-        class="player"
-        v-for="(u, i) in our"
-        :key="`left-${i}`"
-      >
-        <label
-          v-for="(uu, ii) in u"
-          :key="`left-${ii}`"
-          :class="{
-            'unit': true,
-            'unit-left': ii % 2 === 0,
-            'unit-right': ii % 2 === 1,
-            'target-flag': selectedSkill.target == 1
-          }"
-          @click="() => handleSelectTarget(uu.id)"
-        >
-          Lv.{{uu.lv}} {{uu.name}}
-          <div class="hp">
-            <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
-            <label>{{uu.hp_c}}/{{uu.hp}}</label>
+  <div class="fight">
+    <div class="fight_part">
+      <div class="battle">
+        <div class="left">
+          <div
+            class="player"
+            v-for="(u, i) in our"
+            :key="`left-${i}`"
+          >
+            <label
+              v-for="(uu, ii) in u"
+              :key="`left-${ii}`"
+              :class="{
+                'unit': true,
+                'unit-left': ii % 2 === 0,
+                'unit-right': ii % 2 === 1,
+                'target-flag': selectedSkill.target == 1
+              }"
+              @click="() => handleSelectTarget(uu.id)"
+            >
+              Lv.{{uu.lv}} {{uu.name}}
+              <div class="hp">
+                <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
+                <label>{{uu.hp_c}}/{{uu.hp}}</label>
+              </div>
+            </label>
           </div>
-        </label>
-      </div>
-    </div>
-    <div class="center">
-      <div class="actions">
-        <p>第{{round}}回合</p>
-      </div>
-      <div v-if="!isEnd && showPlayerAction && timeout > 0" class="timeout">{{timeout}}</div>
-      <div v-else-if="isEnd">
-        结算中
-      </div>
-      <div v-else>
-        请等待
-      </div>
-    </div>
-    <div class="right">
-      <div
-        class="player"
-        v-for="(u, i) in enemy"
-        :key="`left-${i}`"
-      >
-        <label
-          v-for="(uu, ii) in u"
-          :key="`left-${ii}`"
-          :class="{
-            'unit': true,
-            'unit-left': ii % 2 === 1,
-            'unit-right': ii % 2 === 0,
-            'target-flag': (uu.hp_c > 0 && selectedSkill.target == 0)
-          }"
-          @click="() => handleSelectTarget(uu.id)"
-        >
-          Lv.{{uu.lv}} {{uu.name}}
-          <div class="hp">
-            <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
-            <label>{{uu.hp_c}}/{{uu.hp}}</label>
+        </div>
+        <div class="center" v-if="round>0">
+          <div class="actions">
+            <p>第{{round}}回合</p>
           </div>
-        </label>
+          <div v-if="!isEnd && showPlayerAction && timeout > 0" class="timeout">{{timeout}}</div>
+          <div v-else-if="isEnd">
+            结算中
+          </div>
+          <div v-else>
+            请等待
+          </div>
+        </div>
+        <div class="right">
+          <div
+            class="player"
+            v-for="(u, i) in enemy"
+            :key="`left-${i}`"
+          >
+            <label
+              v-for="(uu, ii) in u"
+              :key="`left-${ii}`"
+              :class="{
+                'unit': true,
+                'unit-left': ii % 2 === 1,
+                'unit-right': ii % 2 === 0,
+                'target-flag': (uu.hp_c > 0 && selectedSkill.target == 0)
+              }"
+              @click="() => handleSelectTarget(uu.id)"
+            >
+              Lv.{{uu.lv}} {{uu.name}}
+              <div class="hp">
+                <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
+                <label>{{uu.hp_c}}/{{uu.hp}}</label>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="battle_info">
+        <h3 v-if="round > 0">&nbsp;&nbsp;战况：第{{round}}回合</h3>
+        <div v-for="(act, i) in actions" :key="`actions-${i}`">
+          <label v-html="act.title" />：
+          <label v-html="act.content.join('，')" />
+        </div>
       </div>
     </div>
-  </div>
-  <h3 v-if="round > 1">&nbsp;&nbsp;战况：第{{round - 1}}回合</h3>
-  <div v-for="(act, i) in actions" :key="`actions-${i}`">
-    <label v-html="act.title" />：
-    <label v-html="act.content.join('')" />
+    <div class="end_info">
+      推送战斗总结
+      <div v-for="(item, index) in battleEarnings" :key='index'>{{`第${index+1}次战斗获得:${item}`}}</div>
+      <div id="info_end" style="height:20px; overflow:hidden;" ref="end"/>
+    </div>
   </div>
 </template>
 
@@ -107,7 +118,7 @@ export default defineComponent({
   data() {
     return {
       timeout: 0,
-      round: 1,
+      round: 0,
       showPlayerAction: true,
       selectedSkill: {},
       playerAction: {
@@ -174,6 +185,13 @@ export default defineComponent({
     },
     isEnd() {
       return this.battle.end
+    },
+    battleEarnings() {
+      if (this.$store.state.earnings.lenght > 666) {
+        this.$store.commit('clearEarnings')
+        return {}
+      }
+      return this.$store.state.earnings
     }
   },
   mounted() {
@@ -206,10 +224,29 @@ export default defineComponent({
     '$store.state.actions': {
       deep: true,
       handler(acts) {
-        this.round++
+        // this.round++
         this.timeout = this.maxRoundTimeout
         this.showPlayerAction = true
       }
+    },
+    'battleEarnings': {
+      handler(val) {
+        if (val.length) {
+          const dom = this.$refs.end
+          dom.scrollIntoView({ block: 'end' })
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    '$store.state.battle': {
+      handler(val) {
+        if (val) {
+          // console.log(val)
+          this.round = val.round
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -287,7 +324,27 @@ export default defineComponent({
     }
   }
 }
+.fight{
+  width: 100%;
+  height: calc(100vh - 530px);
+  display: flex;
+  .fight_part{
+    height: 100%;
+    width: 70%;
+    .battle_info{
+      overflow-y: scroll;
+      height: calc(100% - 240px);
+    }
+  }
+.end_info{
+  height: 100%;
+  width: 30%;
+  overflow-y: scroll;
+  }
+}
+
 .battle {
+  // width: 70%;
   background: aliceblue;
   position: relative;
   height: 242px;
@@ -362,4 +419,5 @@ export default defineComponent({
     width: 80px;
   }
 }
+
 </style>

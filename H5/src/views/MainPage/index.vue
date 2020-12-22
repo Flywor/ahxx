@@ -18,7 +18,7 @@
     </div>
     <div class="main-page-center">
       <Usually />
-      <Battle v-if="$store.state.battle" />
+      <Battle />
     </div>
     <div class="main-page-right">
       <Equip />

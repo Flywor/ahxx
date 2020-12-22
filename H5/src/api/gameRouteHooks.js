@@ -45,7 +45,8 @@ export default {
           goods.push(gds.name || '未知物品')
         })
       }
-      message.info(`获得经验${data.exp}${goods.length ? `，获得物品${goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
+      store.commit('collectEarnings', `获得经验${data.exp}${data.goods.length ? `，获得物品${data.goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
+      // message.info(`获得经验${data.exp}${goods.length ? `，获得物品${goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)
     }
   }
 }
