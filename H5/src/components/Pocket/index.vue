@@ -63,7 +63,7 @@ const handleGetProps = async() => {
   })
   content.total = data.total
 }
-const handleUseProp = async (item) => {
+const handleUseProp = async(item) => {
   await useProp(item.id)
   message.success('使用成功')
   this.handleGetProps()
@@ -101,6 +101,7 @@ onMounted(() => {
 }
 .pocket_item{
   overflow: hidden;
+  cursor: pointer;
 }
 .pocket{
   height: 100%;
