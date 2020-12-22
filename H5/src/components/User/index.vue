@@ -62,7 +62,7 @@
           <template v-else-if="teamList.length > 0">
             <div class="team" v-for="t in teamList" :key="t.leader">
               <label>
-                Lv.{{t.leaderLv}}
+                Lv.{{t.avgLv}}
                 {{t.leader}}
                 ({{t.teammateNum}}/5)
                 [{{t.map}}]
