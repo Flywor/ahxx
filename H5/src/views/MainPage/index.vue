@@ -21,13 +21,25 @@
       <Battle />
     </div>
     <div class="main-page-right">
+      <a-button type="primary" @click="showDrawer">
+        Open
+      </a-button>
+      <a-drawer
+        title="功能列表"
+        placement="right"
+        v-model:visible="visible"
+        :mask='false'
+        width='400'
+      >
+        测试功能
+      </a-drawer>
       <Equip />
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import User from '@components/User'
 import Battle from '@components/Battle/battle'
 import Usually from '@components/Usually/usually'
@@ -39,10 +51,17 @@ import {
   LogoutOutlined,
   MessageOutlined
 } from '@ant-design/icons-vue'
+
 export default defineComponent({
   components: { User, Battle, Usually, Equip, GithubOutlined, QqOutlined, SettingOutlined, LogoutOutlined, MessageOutlined },
-  data() {
+  setup() {
+    const visible = ref(false)
+    const showDrawer = () => {
+      visible.value = true
+    }
     return {
+      visible,
+      showDrawer
     }
   }
 })
