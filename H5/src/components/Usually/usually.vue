@@ -134,7 +134,7 @@ export default {
     },
     // 功能按键
     funcAction(action) {
-      console.log(action)
+      // console.log(action)
       this.showCom = this.commentType[action]
     }
   }

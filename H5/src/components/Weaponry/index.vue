@@ -12,7 +12,8 @@
           {{qo.name}}
         </a-select-option>
       </a-select>
-      <a-button @click="handleScreen" type="primary" size="small" class="test">确认部位筛选</a-button>
+      <a-button @click="handleScreen" type="primary" size="small">确认部位筛选</a-button>
+      <span style="width:15px;display:inline-block"></span>
       <a-select
         v-model:value="sellQuality"
         style="width: 120px"
@@ -178,8 +179,5 @@ export default defineComponent({
   .eq_item{
     height: 32px;
   }
-}
-.test{
-  margin-right: 15px
 }
 </style>
