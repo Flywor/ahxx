@@ -33,10 +33,12 @@ export default {
     if (!data.fail) {
       const goods = []
       if (data.goods) {
+        console.log(data.goods)
         data.goods.map(gdsId => {
           const gds = GoodsData.find(gd => gd._id === gdsId) || {}
           goods.push(gds.name || '未知物品')
         })
+        data.goods = goods 
       }
       // console.log(data)
       // store.commit('collectEarnings', `获得经验${data.exp}${data.goods.length ? `，获得物品${data.goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)

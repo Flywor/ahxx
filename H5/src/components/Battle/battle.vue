@@ -113,10 +113,10 @@
           获得装备
           <span :style="{ color: qualityMap[item.data.equip.quality].color }">{{item.data.equip.name}}</span>
         </span>
-        <!-- <span v-if="item.data.goods && item.data.goods.length">
+        <span v-if="item.data.goods && item.data.goods.length">
           获得物品
-          <span v-for="(ls, ind) in item.data.goods" :key='ind'>{{ls.name}}</span>
-        </span> -->
+          <span v-for="(ls, ind) in item.data.goods" :key='ind'>{{ls}}</span>
+        </span>
       </div>
     </div>
   </div>
