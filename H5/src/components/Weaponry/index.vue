@@ -6,7 +6,6 @@
         style="width: 120px"
         size="small"
         :allowClear='true'
-        @search='handleSearch'
       >
         <a-select-option v-for="qo in typeMap" :key="qo.type" :value="qo.type">
           {{qo.name}}
@@ -136,9 +135,6 @@ export default defineComponent({
         })
       })
     }
-    const handleSearch = (val) => {
-      console.log(val)
-    }
     return {
       name,
       arr,
@@ -150,8 +146,7 @@ export default defineComponent({
       qualityOptions,
       typeMap,
       screen,
-      handleScreen,
-      handleSearch
+      handleScreen
     }
   }
 })
