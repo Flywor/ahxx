@@ -15,9 +15,10 @@
             <div v-for="a in attrList" :key="a.key" class="info_style">
               {{a.key}} + {{a.value}}
             </div>
-            <div v-for="a in affixList" :key="a.key" :style="{ color: qualityMap[equip.quality].color }" class="info_style">
+            <div v-for="a in affixList" :key="a.key" :style="{ color: 'blue' }" class="info_style">
               {{a.key}} + {{a.value}}
             </div>
+            <div v-if="equip.treasure" class="info_style" style="color:red;font-size: 18px;font-family: 'ZCOOLKuaiLe-Regular';">{{equip.treasure}}</div>
           </template>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
           <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">

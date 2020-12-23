@@ -93,13 +93,15 @@ export default defineComponent({
   display: flex;
   padding: 16px;
   &-left {
-    width: 320px;
+    min-width: 240px;
+    max-width: 320px;
   }
   &-center {
     flex: 1;
   }
   &-right {
-    width: 320px;
+    min-width: 240px;
+    max-width: 320px;
   }
 }
 </style>
