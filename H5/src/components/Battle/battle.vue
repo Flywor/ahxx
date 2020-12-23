@@ -104,9 +104,20 @@
       </div>
     </div>
     <div class="end_info">
-      推送战斗总结
-      <div v-for="(item, index) in battleEarnings" :key='index'>{{item}}</div>
-      <!-- <div id="info_end" style="height:20px; overflow:hidden;" ref="end"/> -->
+      战斗收益
+      <div v-for="(item, index) in battleEarnings" :key='index'>
+        {{item.time}}
+        获得经验
+        <span>{{item.data.exp}}</span>
+        <span v-if="item.data.equip && Object.values(item.data.equip).length">
+          获得装备
+          <span :style="{ color: qualityMap[item.data.equip.quality].color }">{{item.data.equip.name}}</span>
+        </span>
+        <!-- <span v-if="item.data.goods && item.data.goods.length">
+          获得物品
+          <span v-for="(ls, ind) in item.data.goods" :key='ind'>{{ls.name}}</span>
+        </span> -->
+      </div>
     </div>
   </div>
 </template>
@@ -126,6 +137,14 @@ export default defineComponent({
         playerTarget: null,
         petSkill: null,
         petTarget: null
+      },
+      qualityMap: {
+        0: { color: 'rgba(0, 0, 0, 0.65)', name: '普通' },
+        1: { color: '#0779e4', name: '稀有' },
+        2: { color: '#9d0191', name: '神话' },
+        3: { color: '#ff7e67', name: '传说' },
+        4: { color: '#f1c550', name: '不朽' },
+        5: { color: '#fa1616', name: '至宝' }
       }
     }
   },
@@ -229,16 +248,6 @@ export default defineComponent({
         this.showPlayerAction = true
       }
     },
-    // 'battleEarnings': {
-    //   handler(val) {
-    //     if (val.length) {
-    //       const dom = this.$refs.end
-    //       dom.scrollIntoView({ block: 'end' })
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
     '$store.state.battle': {
       handler(val) {
         if (val) {

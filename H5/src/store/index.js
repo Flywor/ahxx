@@ -111,7 +111,10 @@ export default createStore({
     },
     // 统计战斗收益
     collectEarnings(state, data) {
-      state.earnings.unshift(`${formatDate(new Date(), 'hh:mm:ss')} ${data}`)
+      state.earnings.unshift({
+        time: formatDate(new Date(), 'hh:mm:ss'),
+        data: data
+      })
     },
     // 清空战斗信息
     clearEarnings(state, data) {
