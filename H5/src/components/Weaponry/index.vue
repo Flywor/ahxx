@@ -104,6 +104,7 @@ export default defineComponent({
     const handleGetEquip = async() => {
       const { data } = await getEquip(1)
       arr.equipList = data.list
+      name.value = `装备（${data.total}/100）`
     }
     const handleDressEquip = async(id) => {
       await dressEquip(id)
