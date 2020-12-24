@@ -15,7 +15,8 @@ export default createStore({
     battle: null,
     actions: [],
     combatGains: null,
-    earnings: []
+    earnings: [],
+    showHall: false
   },
   mutations: {
     setLogin(state, islogin) {
@@ -118,8 +119,11 @@ export default createStore({
       })
     },
     // 清空战斗信息
-    clearEarnings(state, data) {
+    clearEarnings(state) {
       state.earnings = []
+    },
+    showTeamHall(state, bool) {
+      state.showHall = bool
     }
   },
   actions: {},

@@ -45,12 +45,13 @@
         />
       </a-card>
       &nbsp;
+      <Team />
       <a-spin tip="请等待......" :spinning="teamLoading">
-        <a-card :title="`${team?'我的':'所有'}队伍`" size="small">
+        <a-card title="我的队伍" size="small">
           <template #extra>
-            <a @click="handleCreateTeam" v-if="!team">创建队伍</a>
-            <a @click="handleGetTeamList" v-if="!team" style="margin-left: 8px;">刷新</a>
-            <a @click="handleLeaveTeam" v-if="team">离开队伍</a>
+            <a @click="openTeam">组队大厅</a>
+            <a @click="handleGetTeamList" style="margin-left: 8px;">刷新</a>
+            <a @click="handleLeaveTeam" v-if="team" style="margin-left: 8px;">离开队伍</a>
           </template>
           <template v-if="team">
             <div class="team" v-for="t in team" :key="t.username">
@@ -58,20 +59,6 @@
               Lv.{{t.lv}}
               {{t.username}}
             </div>
-          </template>
-          <template v-else-if="teamList.length > 0">
-            <div class="team" v-for="t in teamList" :key="t.leader">
-              <label>
-                Lv.{{t.avgLv}}
-                {{t.leader}}
-                ({{t.teammateNum}}/5)
-                [{{t.map}}]
-              </label>
-              <a @click="() => handleJoinTeam(t.leader)">加入队伍</a>
-            </div>
-          </template>
-          <template v-else>
-            刷新获取队伍
           </template>
         </a-card>
       </a-spin>
@@ -83,9 +70,14 @@
 import { defineComponent } from 'vue'
 import AttrComponent from './attr'
 import { assignAttr, resetAttr, levelUp } from '@/api/player'
-import { createTeam, leaveTeam, joinTeam, getTeamList } from '@/api/team'
+import { leaveTeam } from '@/api/team'
+import Team from '@/components/User/team'
+
 export default defineComponent({
-  components: { AttrComponent },
+  components: {
+    AttrComponent,
+    Team
+  },
   data() {
     return {
       conAttr: 0,
@@ -121,21 +113,14 @@ export default defineComponent({
     async handleResetAssign() {
       resetAttr()
     },
-    async handleCreateTeam() {
-      await createTeam()
-    },
-    async handleGetTeamList() {
-      const { data } = await getTeamList()
-      this.teamList = data
-    },
     async handleLeaveTeam() {
       await leaveTeam()
     },
-    async handleJoinTeam(leader) {
-      await joinTeam(leader)
-    },
     handleLevelUp() {
       levelUp()
+    },
+    openTeam() {
+      this.$store.commit('showTeamHall', true)
     }
   }
 })
@@ -154,12 +139,6 @@ export default defineComponent({
       & > div {
         font-size: 14px;
       }
-    }
-  }
-  .team {
-    display: flex;
-    label {
-      flex: 1;
     }
   }
 }
