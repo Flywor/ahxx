@@ -5,16 +5,16 @@ export async function getTeamList(x, y) {
   return data.data
 }
 
-export async function createTeam() {
-  return await game.send('logic.teamHandler.createTeam')
+export async function createTeam(psw) {
+  return await game.send('logic.teamHandler.createTeam', { psw })
 }
 
 export async function leaveTeam() {
   return await game.send('logic.teamHandler.leaveTeam')
 }
 
-export async function joinTeam(leader) {
-  return await game.send('logic.teamHandler.joinTeam', { leader })
+export async function joinTeam(leader, psw) {
+  return await game.send('logic.teamHandler.joinTeam', { leader, psw })
 }
 
 export async function battleStart(mapid) {

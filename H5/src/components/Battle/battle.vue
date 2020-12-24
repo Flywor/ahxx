@@ -115,7 +115,9 @@
         </span>
         <span v-if="item.data.goods && item.data.goods.length">
           获得物品
-          <span v-for="(ls, ind) in item.data.goods" :key='ind' style="margin-right: 8px;">{{ls}}</span>
+          <span v-for="(ls, ind) in item.data.goods" :key='ind' :style="{ marginRight: '8px', color: qualityMap[ls.quality].color }">
+            {{ls.name}}
+          </span>
         </span>
       </div>
     </div>
@@ -125,6 +127,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { roundMonsterOperation } from '@/api/team'
+import { qualityMap } from '@/util/enum'
 export default defineComponent({
   data() {
     return {
@@ -138,14 +141,7 @@ export default defineComponent({
         petSkill: null,
         petTarget: null
       },
-      qualityMap: {
-        0: { color: 'rgba(0, 0, 0, 0.65)', name: '普通' },
-        1: { color: '#0779e4', name: '稀有' },
-        2: { color: '#9d0191', name: '神话' },
-        3: { color: '#ff7e67', name: '传说' },
-        4: { color: '#f1c550', name: '不朽' },
-        5: { color: '#fa1616', name: '至宝' }
-      }
+      qualityMap
     }
   },
   computed: {

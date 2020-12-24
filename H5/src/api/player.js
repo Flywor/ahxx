@@ -41,3 +41,7 @@ export async function useProp(propId) {
   return await game.send('logic.playerHandler.useProp', { propId })
 }
 
+export async function composeProp(propId) {
+  return await game.send('logic.playerHandler.composeProp', { propId })
+}
+

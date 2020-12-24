@@ -50,7 +50,6 @@
         <a-card title="我的队伍" size="small">
           <template #extra>
             <a @click="openTeam">组队大厅</a>
-            <a @click="handleGetTeamList" style="margin-left: 8px;">刷新</a>
             <a @click="handleLeaveTeam" v-if="team" style="margin-left: 8px;">离开队伍</a>
           </template>
           <template v-if="team">

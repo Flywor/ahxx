@@ -122,11 +122,10 @@ export default {
       }
     },
     async autoStartBattle() {
-      const { code } = await battleStart(this.$store.state.battleMap)
-      if (code !== 200) {
-        setTimeout(() => {
-          this.autoStartBattle()
-        }, 1000)
+      try {
+        await battleStart(this.$store.state.battleMap)
+      } catch (e) {
+        this.isBattle = false
       }
     },
     handleSetBattleMap(mapid) {

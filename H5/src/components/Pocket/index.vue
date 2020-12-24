@@ -31,16 +31,8 @@
 import GoodsData from '@/data/Goods.json'
 import { reactive, ref, onMounted, defineComponent } from 'vue'
 import { getProp, useProp } from '@/api/player'
+import { qualityMap } from '@/util/enum'
 import { message } from 'ant-design-vue'
-
-const qualityMap = {
-  0: { color: 'rgba(0, 0, 0, 0.65)', name: '普通' },
-  1: { color: '#0779e4', name: '稀有' },
-  2: { color: '#9d0191', name: '神话' },
-  3: { color: '#ff7e67', name: '传说' },
-  4: { color: '#f1c550', name: '不朽' },
-  5: { color: '#fa1616', name: '至宝' }
-}
 
 export default defineComponent({
   setup() {

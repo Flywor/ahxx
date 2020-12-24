@@ -36,7 +36,10 @@ export default {
         console.log(data.goods)
         data.goods.map(gdsId => {
           const gds = GoodsData.find(gd => gd._id === gdsId) || {}
-          goods.push(gds.name || '未知物品')
+          goods.push({
+            quality: gds.quality,
+            name: gds.name || '未知物品'
+          })
         })
         data.goods = goods 
       }
