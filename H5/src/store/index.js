@@ -73,7 +73,6 @@ export default createStore({
           const action = { title: `【${index + 1}】<a>${a}</a>`, content: [] }
           if (act.beforeRound) {
             action.content.push(act.beforeRound)
-            action.content.push('，')
           }
           const use = act.skill
           if (use) {

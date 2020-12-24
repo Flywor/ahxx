@@ -115,7 +115,7 @@
         </span>
         <span v-if="item.data.goods && item.data.goods.length">
           获得物品
-          <span v-for="(ls, ind) in item.data.goods" :key='ind'>{{ls}}</span>
+          <span v-for="(ls, ind) in item.data.goods" :key='ind' style="margin-right: 8px;">{{ls}}</span>
         </span>
       </div>
     </div>
