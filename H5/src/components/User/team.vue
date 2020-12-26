@@ -16,8 +16,8 @@
           [{{t.map}}]
         </label>
         <div v-if="t.haspwd">
-          <a-input v-model:value="teampwd" placeholder="队伍密码" style="width: 80px" size='small'/>
-          <a @click="() => handleJoinTeam(t.leader, true)">加入队伍</a>
+          <a-input v-model:value="t.teampwd" placeholder="队伍密码" style="width: 80px" size='small'/>
+          <a @click="() => handleJoinTeam(t.leader, true, t.teampwd)">加入队伍</a>
         </div>
         <a @click="() => handleJoinTeam(t.leader)" v-else>加入队伍</a>
       </div>
@@ -64,19 +64,25 @@ export default defineComponent({
     })
     const handleGetTeamList = async() => {
       const { data } = await getTeamList()
+      data.map(item => {
+        if (item.haspwd) {
+          data.teampwd = ''
+        }
+      })
       state.teamList = data
+      console.log(state.teamList)
     }
     // 加入队伍
     const teampwd = ref('')
-    const handleJoinTeam = async(leader, ispsw) => {
+    const handleJoinTeam = async(leader, ispsw, pwd) => {
       // 如果有组队密码，需要输入密码
       if (ispsw) {
-        if (!teampwd.value) {
+        if (!pwd) {
           message.error('还没输入密码')
           return
         }
       }
-      await joinTeam(leader, teampwd.value)
+      await joinTeam(leader, pwd)
       store.commit('showTeamHall', false)
     }
 
