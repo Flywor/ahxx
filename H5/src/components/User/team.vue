@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { createTeam, joinTeam, getTeamList } from '@/api/team'
 import { useStore } from 'vuex'
 import { message } from 'ant-design-vue'
@@ -45,7 +45,11 @@ export default defineComponent({
     const visible = computed(() => {
       return store.state.showHall
     })
-
+    watch(visible, (val) => {
+      if (val) {
+        handleGetTeamList()
+      }
+    })
     const creatdTeampwd = ref('')
     // 关闭组队大厅
     const closeHall = () => {
