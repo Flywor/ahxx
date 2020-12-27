@@ -1,17 +1,18 @@
 <template>
   <a-card :title="name" class="eq" size="small">
     <template #extra>
+      部位筛选
       <a-select
         v-model:value="screen"
         style="width: 120px"
         size="small"
         :allowClear='true'
+        @change="filterEq"
       >
         <a-select-option v-for="qo in typeMap" :key="qo.type" :value="qo.type">
           {{qo.name}}
         </a-select-option>
       </a-select>
-      <a-button @click="handleScreen" type="primary" size="small">确认部位筛选</a-button>
       <span style="width:15px;display:inline-block"></span>
       <a-select
         v-model:value="sellQuality"
@@ -116,23 +117,47 @@ export default defineComponent({
       message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }
     const handleSellEquipByQuality = async() => {
-      if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
-        return
+      if (screen.value) {
+        let eq = []
+        eq = arr.equipList.filter(ls => {
+          return ls.type + 1 === screen.value
+        })
+        if (!eq.some(el => el.quality === sellQuality.value)) {
+          return
+        }
+        const forSell = []
+        eq.forEach(item => {
+          forSell.push(item.id)
+        })
+        if (forSell.length) {
+          // 传了个要分解的数组
+          const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value, forSell)
+          handleGetEquip()
+          message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
+        } else {
+          message.error(`背包没有当前品质的装备`)
+        }
+      } else {
+        const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
+        if (!gold) {
+          message.error(`背包没有当前品质的装备`)
+          return
+        }
+        handleGetEquip()
+        message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
       }
-      const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
-      handleGetEquip()
-      message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }
     // 背包筛选
     const screen = ref('')
-    const handleScreen = () => {
-      if (!screen.value) {
+    const filterEq = async(value) => {
+      if (!value) {
         handleGetEquip()
         return
       }
+      // console.log(value)
       getEquip(1).then(res => {
         arr.equipList = res.data.list.filter(item => {
-          return item.type + 1 === screen.value
+          return item.type + 1 === value
         })
       })
     }
@@ -147,7 +172,7 @@ export default defineComponent({
       qualityOptions,
       typeMap,
       screen,
-      handleScreen
+      filterEq
     }
   }
 })
