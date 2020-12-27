@@ -1,5 +1,11 @@
 <template>
   <div class="attr">
+    <a-tooltip placement="topLeft">
+      <template #title>
+        {{descMsg}}
+      </template>
+      <QuestionCircleOutlined style="line-height: 24px;margin-right:5px"/>
+    </a-tooltip>
     <div>
       {{desc}}：{{attr}}
     </div>
@@ -34,14 +40,15 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { MinusOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 export default defineComponent({
-  components: { MinusOutlined, PlusOutlined },
+  components: { MinusOutlined, PlusOutlined, QuestionCircleOutlined },
   props: {
     desc: String,
     attr: Number,
     value: Number,
-    canOpera: Boolean
+    canOpera: Boolean,
+    descMsg: String
   },
   data() {
     return {

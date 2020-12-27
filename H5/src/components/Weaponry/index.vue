@@ -56,35 +56,35 @@ const qualityOptions = [
 ]
 const typeMap = [
   {
-    type: 0,
+    type: 1,
     name: '头盔'
   },
   {
-    type: 1,
+    type: 2,
     name: '手套'
   },
   {
-    type: 2,
+    type: 3,
     name: '鞋子'
   },
   {
-    type: 3,
+    type: 4,
     name: '胸甲'
   },
   {
-    type: 4,
+    type: 5,
     name: '腰带'
   },
   {
-    type: 5,
+    type: 6,
     name: '武器'
   },
   {
-    type: 6,
+    type: 7,
     name: '戒指'
   },
   {
-    type: 7,
+    type: 8,
     name: '项链'
   }
 ]
@@ -132,7 +132,7 @@ export default defineComponent({
       }
       getEquip(1).then(res => {
         arr.equipList = res.data.list.filter(item => {
-          return item.type === screen.value
+          return item.type + 1 === screen.value
         })
       })
     }

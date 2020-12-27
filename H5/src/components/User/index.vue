@@ -24,24 +24,28 @@
           :attr="user.con"
           v-model:value="conAttr"
           :canOpera="remainAttr > 0"
+          :descMsg=desc[0]
         />
         <AttrComponent
           desc="力量"
           :attr="user.str"
           v-model:value="strAttr"
           :canOpera="remainAttr > 0"
+          :descMsg=desc[1]
         />
         <AttrComponent
           desc="耐力"
           :attr="user.vit"
           v-model:value="vitAttr"
           :canOpera="remainAttr > 0"
+          :descMsg=desc[2]
         />
         <AttrComponent
           desc="敏捷"
           :attr="user.agi"
           v-model:value="agiAttr"
           :canOpera="remainAttr > 0"
+          :descMsg=desc[3]
         />
       </a-card>
       &nbsp;
@@ -84,7 +88,13 @@ export default defineComponent({
       vitAttr: 0,
       agiAttr: 0,
       teamLoading: false,
-      teamList: []
+      teamList: [],
+      desc: [
+        '1体力=10血量+0.3防御+0.2速度',
+        '1力量=1.5血量+1.7攻击',
+        '1耐力=3血量+1.7防御',
+        '1敏捷=3血量+0.3攻击+1.4速度'
+      ]
     }
   },
   computed: {
