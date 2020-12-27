@@ -51,7 +51,7 @@ export default defineComponent({
     const closeHall = () => {
       store.commit('showTeamHall', false)
       creatdTeampwd.value = ''
-      teampwd.value = ''
+      handleGetTeamList()
     }
     // 创建队伍
     const handleCreateTeam = async() => {
@@ -70,7 +70,6 @@ export default defineComponent({
         }
       })
       state.teamList = data
-      console.log(state.teamList)
     }
     // 加入队伍
     const teampwd = ref('')

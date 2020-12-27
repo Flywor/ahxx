@@ -124,7 +124,7 @@ export default defineComponent({
       message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
     }
     // 背包筛选
-    const screen = ref(0)
+    const screen = ref('')
     const handleScreen = () => {
       if (!screen.value) {
         handleGetEquip()
