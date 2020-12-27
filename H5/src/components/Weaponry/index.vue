@@ -106,6 +106,8 @@ export default defineComponent({
       const { data } = await getEquip(1)
       arr.equipList = data.list
       name.value = `装备（${data.total}/100）`
+      screen.value = ''
+      sellQuality.value = qualityOptions[0].value
     }
     const handleDressEquip = async(id) => {
       await dressEquip(id)
@@ -123,20 +125,12 @@ export default defineComponent({
           return ls.type + 1 === screen.value
         })
         if (!eq.some(el => el.quality === sellQuality.value)) {
+          message.error(`背包没有当前品质的装备`)
           return
         }
-        const forSell = []
-        eq.forEach(item => {
-          forSell.push(item.id)
-        })
-        if (forSell.length) {
-          // 传了个要分解的数组
-          const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value, forSell)
-          handleGetEquip()
-          message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
-        } else {
-          message.error(`背包没有当前品质的装备`)
-        }
+        const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value, screen.value - 1)
+        handleGetEquip()
+        message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
       } else {
         const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
         if (!gold) {
