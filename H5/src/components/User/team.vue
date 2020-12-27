@@ -73,7 +73,7 @@ export default defineComponent({
     }
     // 加入队伍
     const teampwd = ref('')
-    const handleJoinTeam = async(leader, ispsw, pwd) => {
+    const handleJoinTeam = async(leader, ispsw, pwd = '') => {
       // 如果有组队密码，需要输入密码
       if (ispsw) {
         if (!pwd) {
