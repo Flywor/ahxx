@@ -13,7 +13,7 @@
           自动战斗
         </a-checkbox>
       </p>
-      <a-popover :title="skill.name" v-for="skill in actionSkill" :key="skill.id">
+      <a-popover :title="skill.name" v-for="skill in actionSkill" :key="skill.id" placement="bottom">
         <template #content>
           <span style="padding-left: 8px;">{{skill.mark || skill.name}}</span>
         </template>
