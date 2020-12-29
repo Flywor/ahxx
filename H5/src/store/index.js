@@ -84,8 +84,8 @@ export default createStore({
                 }
                 const b = `Lv.${t.lv} ${t.name}`
                 const hurt = t.hurt
-                const buff = t.buff.join('')
-                const debuff = t.debuff.join('')
+                const buff = t.buff.join('，')
+                const debuff = t.debuff.join('，')
                 action.content.push(`对 <a>${b}</a> 使用 <a>${use}</a> `)
                 if (hurt > -1) {
                   action.content.push(`造成 <a style="color:purple">${hurt}</a> `)
