@@ -44,7 +44,7 @@ import { DownOutlined } from '@ant-design/icons-vue'
 import XxImg from '@/assets/xx.jpg'
 import { moveToMap } from '@/api/player'
 import { battleStart } from '@/api/team'
-import MapData from '@/data/Map.json'
+import MapData from '@/data/map.json'
 import PetComponent from '@/components/Pet/pet' // 宠物
 import Pocket from '@/components/Pocket/index.vue' // 背包
 import Skill from '@/components/Skill/index.vue' // 技能

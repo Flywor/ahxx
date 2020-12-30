@@ -46,7 +46,6 @@ import { reactive, ref, defineComponent, onMounted } from 'vue'
 import { getEquip, dressEquip, sellEquip, sellEquipByQuality } from '@/api/player'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
-// import GoodsData from '@/data/Goods.json'
 const qualityOptions = [
   { value: 0, label: '普通' },
   { value: 1, label: '稀有' },

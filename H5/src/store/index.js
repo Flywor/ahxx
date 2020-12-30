@@ -94,7 +94,7 @@ export default createStore({
                   action.content.push(`<a style="color: green">${buff}</a>`)
                 }
                 if (debuff) {
-                  action.content.push(`<a style="color: red">${debuff}</a>`)
+                  action.content.push(`，<a style="color: red">${debuff}</a>`)
                 }
               })
             } else {

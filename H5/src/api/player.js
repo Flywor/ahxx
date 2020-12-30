@@ -45,3 +45,7 @@ export async function composeProp(propId) {
   return await game.send('logic.playerHandler.composeProp', { propId })
 }
 
+export async function completeTask(taskId) {
+  return await game.send('logic.playerHandler.completeTask', { taskId })
+}
+

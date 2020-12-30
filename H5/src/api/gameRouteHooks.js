@@ -1,5 +1,5 @@
 import store from '../store/index'
-import GoodsData from '@/data/Goods.json'
+import GoodsData from '@/data/goods.json'
 // ws路由推送处理
 export default {
   // 用户完整信息 -- 推送当前用户 -- 登录触发
