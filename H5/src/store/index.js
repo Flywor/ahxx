@@ -22,6 +22,10 @@ export default createStore({
     setLogin(state, islogin) {
       state.isLogin = islogin
     },
+    setExpGold(state, { exp_c, gold }) {
+      state.user.exp_c = exp_c
+      state.user.gold = gold
+    },
     // 当前玩家信息
     setUser(state, user) {
       state.user = user

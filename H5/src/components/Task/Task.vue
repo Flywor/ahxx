@@ -1,6 +1,6 @@
 <template>
   <a-card :title="name" class="task" size="small">
-    <a-card-grid v-for="(item, index) in taskList" :key="index" class="synthetic_item">
+    <a-card-grid v-for="(item, index) in taskList" :key="index" class="task_item">
       <strong>【{{item.name}}】</strong>
       <div>任务需求：{{item.needs}}</div>
       <div>任务奖励：{{item.reward}}</div>
@@ -27,11 +27,11 @@ export default defineComponent({
       const needs = []
       needGoods.map(t => {
         const [goodsId, num] = t
-        needs.push(`${GoodsData.find(gd => gd._id == goodsId).name}x${num}`)
+        needs.push(`${GoodsData.find(gd => gd._id === goodsId).name}x${num}`)
       })
       needPet.map(t => {
         const [monsterId, lv] = t
-        needs.push(`Lv.${lv} ${MonsterData.find(gd => gd._id == monsterId).name}`)
+        needs.push(`Lv.${lv} ${MonsterData.find(gd => gd._id === monsterId).name}`)
       })
       if (needGold) {
         needs.push(`金币：${needGold}`)
@@ -39,7 +39,7 @@ export default defineComponent({
       const reward = []
       rewardGoods.map(t => {
         const [goodsId, num] = t
-        reward.push(`${GoodsData.find(gd => gd._id == goodsId).name}x${num}`)
+        reward.push(`${GoodsData.find(gd => gd._id === goodsId).name}x${num}`)
       })
       if (rewardGold) {
         reward.push(`金币：${rewardGold}`)
@@ -52,11 +52,11 @@ export default defineComponent({
       }
     })
 
-    const handleComplete = async (_id) => {
+    const handleComplete = async(_id) => {
       try {
         await completeTask(_id)
         message.success('任务完成！')
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
     }

@@ -49,3 +49,6 @@ export async function completeTask(taskId) {
   return await game.send('logic.playerHandler.completeTask', { taskId })
 }
 
+export async function buyItem(shopId, goodsId) {
+  return await game.send('logic.playerHandler.buyItem', { shopId, goodsId })
+}

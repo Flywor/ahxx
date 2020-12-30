@@ -48,11 +48,11 @@ import MapData from '@/data/map.json'
 import PetComponent from '@/components/Pet/pet' // 宠物
 import Pocket from '@/components/Pocket/index.vue' // 背包
 import Skill from '@/components/Skill/index.vue' // 技能
-import Synthetic from '@/components/Synthetic/index.vue' // 合成
+import Synthetic from '@/components/Synthetic/Synthetic.vue' // 合成
 import Weaponry from '@/components/Weaponry/index.vue' // 装备
-import Shop from '@/components/Shop/index.vue' // 商店
+import Shop from '@/components/Shop/Shop.vue' // 商店
 import Pedlat from '@/components/Pedlat/index.vue' // 摆摊
-import Task from '@/components/Task/index.vue' // 任务
+import Task from '@/components/Task/Task.vue' // 任务
 import Wiki from '@/components/Wiki/index.vue' // 百科
 
 export default {
