@@ -20,7 +20,7 @@
         <a-button
           class="battle-skill-container-item"
 
-          :disabled="isEnd || !showPlayerAction"
+          :disabled="isEnd || !showPlayerAction || skill.type === 8"
           :type="selectedSkill.id === skill.id ? 'primary': null"
           @click="() => handleSelectSkill(skill)"
         >

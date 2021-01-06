@@ -5,7 +5,6 @@
       <a-button type="primary" class="btn" @click="funcAction('背包')">背包</a-button>
       <a-button type="primary" class="btn" @click="funcAction('合成')">合成</a-button>
       <a-button type="primary" class="btn" @click="funcAction('宠物')">宠物</a-button>
-      <a-button type="primary" class="btn" @click="funcAction('技能')">技能</a-button>
     </div>
     <div class="usually-center">
       <component :is="showCom"/>
@@ -14,7 +13,7 @@
       <a-button type="primary" class="btn" @click="funcAction('商店')">商店</a-button>
       <a-button type="primary" class="btn" @click="funcAction('摆摊')">摆摊</a-button>
       <a-button type="primary" class="btn" @click="funcAction('任务')">任务</a-button>
-      <a-button type="primary" class="btn" @click="funcAction('资料')">资料</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('门派')">门派</a-button>
     </div>
   </div>
   <div class="choose-map" v-if="!team || (team && isLeader)">
@@ -44,29 +43,27 @@ import { DownOutlined } from '@ant-design/icons-vue'
 import XxImg from '@/assets/xx.jpg'
 import { moveToMap } from '@/api/player'
 import { battleStart } from '@/api/team'
-import MapData from '@/data/Map.json'
+import MapData from '@/data/map.json'
 import PetComponent from '@/components/Pet/pet' // 宠物
 import Pocket from '@/components/Pocket/index.vue' // 背包
-import Skill from '@/components/Skill/index.vue' // 技能
 import Synthetic from '@/components/Synthetic/index.vue' // 合成
 import Weaponry from '@/components/Weaponry/index.vue' // 装备
 import Shop from '@/components/Shop/index.vue' // 商店
 import Pedlat from '@/components/Pedlat/index.vue' // 摆摊
 import Task from '@/components/Task/index.vue' // 任务
-import Wiki from '@/components/Wiki/index.vue' // 百科
+import Sect from '@/components/Sect/index.vue' // 百科
 
 export default {
   components: {
     DownOutlined,
     PetComponent,
     Pocket,
-    Skill,
     Synthetic,
     Weaponry,
     Shop,
     Pedlat,
     Task,
-    Wiki
+    Sect
   },
   data() {
     return {
@@ -84,7 +81,7 @@ export default {
         '商店': 'Shop',
         '摆摊': 'Pedlat',
         '任务': 'Task',
-        '资料': 'Wiki'
+        '门派': 'Sect'
       }
     }
   },

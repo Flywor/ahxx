@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { formatDate } from '@/util/tools'
+import SkillData from '@/data/skill.json'
 export default createStore({
   state: {
     isLogin: false,
@@ -31,6 +32,11 @@ export default createStore({
     },
     // 当前玩家的技能
     setUserSkills(state, skills) {
+      skills.map(skl => {
+        const { name, mark } = SkillData.find(sd => skl.id === sd._id)
+        skl.name = name
+        skl.mark = mark
+      })
       state.skills = skills
     },
     // 当前玩家的队伍

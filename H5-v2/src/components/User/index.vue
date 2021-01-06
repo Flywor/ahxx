@@ -5,14 +5,24 @@
         <h3>Lv.{{user.lv}} {{user.username}}</h3>
         <div>经验：{{user.exp_c}}/{{user.exp}}<a style="margin-left: 16px;" v-show="user.exp_c > user.exp" @click="handleLevelUp">升级</a></div>
         <div>金币：{{user.gold}}</div>
-        <div>血量：{{user.hp}}</div>
-        <div>攻击：{{user.atk}}</div>
-        <div>防御：{{user.def}}</div>
+        <div>HP：{{user.hp}}</div>
+        <div>MP：{{user.hp}}</div>
+        <div>物理攻击：{{user.atk}}</div>
+        <div>物理防御：{{user.def}}</div>
+        <div>物理暴击：{{formatPercent(user.strCritsRate)}}%</div>
+        <div>物理暴伤：{{formatPercent(user.strCritsDamageRate)}}%</div>
+        <div>物理吸血：{{formatPercent(user.atkHpSteal)}}%</div>
+        <div>法术攻击：{{user.magic}}</div>
+        <div>法术抗性：{{formatPercent(user.magicDef)}}%</div>
+        <div>法术暴击：{{formatPercent(user.intCritsRate)}}%</div>
+        <div>法术暴伤：{{formatPercent(user.intCritsDamageRate)}}%</div>
+        <div>忽略防御：{{formatPercent(user.neglectDef)}}%</div>
+        <div>忽略魔抗：{{formatPercent(user.neglectMagicDef)}}%</div>
+        <div>法术吸血：{{formatPercent(user.magicHpSteal)}}%</div>
         <div>速度：{{user.speed}}</div>
-        <div>经验倍率：{{Math.round(user.expRate * 100)}}%</div>
-        <div>装备爆率：{{Math.round(user.dropRate * 100)}}%</div>
-        <div>暴击几率：{{Math.round(user.critsRate * 100)}}%</div>
-        <div>暴击伤害：{{Math.round(user.critsDamageRate * 100)}}%</div>
+        <div>经验倍率：{{formatPercent(user.expRate)}}%</div>
+        <div>装备爆率：{{formatPercent(user.dropRate)}}%</div>
+        <div>金币获取：{{formatPercent(user.goldRate)}}%</div>
       </div>
       <a-card :title="`可分配属性点[${remainAttr}]`" style="width:100%;" size="small">
         <template #extra>
@@ -29,6 +39,12 @@
           desc="力量"
           :attr="user.str"
           v-model:value="strAttr"
+          :canOpera="remainAttr > 0"
+        />
+        <AttrComponent
+          desc="法力"
+          :attr="user.int"
+          v-model:value="intAttr"
           :canOpera="remainAttr > 0"
         />
         <AttrComponent
@@ -71,6 +87,7 @@ import AttrComponent from './attr'
 import { assignAttr, resetAttr, levelUp } from '@/api/player'
 import { leaveTeam } from '@/api/team'
 import Team from '@/components/User/team'
+import { formatPercent } from '@/util/tools'
 
 export default defineComponent({
   components: {
@@ -79,8 +96,10 @@ export default defineComponent({
   },
   data() {
     return {
+      formatPercent,
       conAttr: 0,
       strAttr: 0,
+      intAttr: 0,
       vitAttr: 0,
       agiAttr: 0,
       teamLoading: false,
@@ -95,7 +114,7 @@ export default defineComponent({
       return this.$store.state.user
     },
     remainAttr() {
-      return this.user.attrPoint - (this.conAttr + this.strAttr + this.vitAttr + this.agiAttr)
+      return this.user.attrPoint - (this.conAttr + this.strAttr + this.intAttr + this.vitAttr + this.agiAttr)
     },
     team() {
       return this.$store.state.team
@@ -103,9 +122,10 @@ export default defineComponent({
   },
   methods: {
     async handleSaveAssign() {
-      await assignAttr({ con: this.conAttr, str: this.strAttr, vit: this.vitAttr, agi: this.agiAttr })
+      await assignAttr({ con: this.conAttr, str: this.strAttr, int: this.intAttr, vit: this.vitAttr, agi: this.agiAttr })
       this.conAttr = 0
       this.strAttr = 0
+      this.intAttr = 0
       this.vitAttr = 0
       this.agiAttr = 0
     },
