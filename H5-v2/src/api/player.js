@@ -60,3 +60,11 @@ export async function joinSect(sectId) {
 export async function getSectSkill() {
   return await game.send('logic.playerHandler.getSectSkill')
 }
+
+export async function learnSkill(skillId) {
+  return await game.send('logic.playerHandler.learnSkill', { skillId })
+}
+
+export async function lvUpSectSkill(skillId) {
+  return await game.send('logic.playerHandler.lvUpSectSkill', { skillId })
+}

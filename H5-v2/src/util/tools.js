@@ -61,5 +61,5 @@ export const formatDate = (time, format = 'yyyy-MM-dd') => {
 }
 
 export const formatPercent = function(val) {
-  return Math.round((Number(val) || 0) * 100)
+  return `${Math.round((Number(val) || 0) * 100)}%`
 }

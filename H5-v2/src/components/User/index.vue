@@ -9,20 +9,20 @@
         <div>MP：{{user.hp}}</div>
         <div>物理攻击：{{user.atk}}</div>
         <div>物理防御：{{user.def}}</div>
-        <div>物理暴击：{{formatPercent(user.strCritsRate)}}%</div>
-        <div>物理暴伤：{{formatPercent(user.strCritsDamageRate)}}%</div>
-        <div>物理吸血：{{formatPercent(user.atkHpSteal)}}%</div>
+        <div>物理暴击：{{formatPercent(user.strCritsRate)}}</div>
+        <div>物理暴伤：{{formatPercent(user.strCritsDamageRate)}}</div>
+        <div>物理吸血：{{formatPercent(user.atkHpSteal)}}</div>
         <div>法术攻击：{{user.magic}}</div>
-        <div>法术抗性：{{formatPercent(user.magicDef)}}%</div>
-        <div>法术暴击：{{formatPercent(user.intCritsRate)}}%</div>
-        <div>法术暴伤：{{formatPercent(user.intCritsDamageRate)}}%</div>
-        <div>忽略防御：{{formatPercent(user.neglectDef)}}%</div>
-        <div>忽略魔抗：{{formatPercent(user.neglectMagicDef)}}%</div>
-        <div>法术吸血：{{formatPercent(user.magicHpSteal)}}%</div>
+        <div>法术抗性：{{formatPercent(user.magicDef)}}</div>
+        <div>法术暴击：{{formatPercent(user.intCritsRate)}}</div>
+        <div>法术暴伤：{{formatPercent(user.intCritsDamageRate)}}</div>
+        <div>法术吸血：{{formatPercent(user.magicHpSteal)}}</div>
+        <div>忽略防御：{{formatPercent(user.neglectDef)}}</div>
+        <div>忽略魔抗：{{formatPercent(user.neglectMagicDef)}}</div>
         <div>速度：{{user.speed}}</div>
-        <div>经验倍率：{{formatPercent(user.expRate)}}%</div>
-        <div>装备爆率：{{formatPercent(user.dropRate)}}%</div>
-        <div>金币获取：{{formatPercent(user.goldRate)}}%</div>
+        <div>经验倍率：{{formatPercent(user.expRate)}}</div>
+        <div>装备爆率：{{formatPercent(user.dropRate)}}</div>
+        <div>金币获取：{{formatPercent(user.goldRate)}}</div>
       </div>
       <a-card :title="`可分配属性点[${remainAttr}]`" style="width:100%;" size="small">
         <template #extra>

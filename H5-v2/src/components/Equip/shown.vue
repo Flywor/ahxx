@@ -18,7 +18,7 @@
             <div v-for="a in affixList" :key="a.key" :style="{ color: 'blue' }" class="info_style">
               {{a.key}} + {{a.value}}
             </div>
-            <div v-if="equip.treasure" class="info_style" style="color:red;font-size: 18px;font-family: 'ZCOOLKuaiLe-Regular';">{{equip.treasure}}</div>
+            <div v-if="equip.treasure" class="info_style" style="color:red;font-size: 18px;">{{getMarkByAffixValue(equip.treasure)}}</div>
           </template>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
           <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">
@@ -66,9 +66,11 @@ export default {
     attrList() {
       const result = []
       const attrMap = {
-        'hp': '血量',
-        'atk': '攻击',
-        'def': '防御',
+        'hp': 'hp',
+        'mp': 'mp',
+        'atk': '物攻',
+        'magic': '法攻',
+        'def': '物防',
         'speed': '速度'
       }
       const attr = this.equip.attr || {}
@@ -85,13 +87,17 @@ export default {
       const affix = this.equip.affix || {}
       Object.keys(affix).map(key => {
         const val = Number(affix[key])
-        const a = AffixData.find(aff => aff.value === key)
         result.push({
-          key: a.mark,
+          key: this.getMarkByAffixValue(key),
           value: val < 1 ? `${Math.round(val * 100)}%` : val
         })
       })
       return result
+    }
+  },
+  methods: {
+    getMarkByAffixValue(affixValue) {
+      return (AffixData.find(aff => aff.value === affixValue) || '这是个bug').mark
     }
   }
 }
