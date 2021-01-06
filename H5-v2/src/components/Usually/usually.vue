@@ -120,7 +120,7 @@ export default {
     },
     async autoStartBattle() {
       try {
-        await battleStart(this.$store.state.battleMap)
+        await battleStart()
       } catch (e) {
         this.isBattle = false
       }
