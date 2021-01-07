@@ -211,7 +211,7 @@ export default defineComponent({
       return this.battle.end
     },
     battleEarnings() {
-      if (this.$store.state.earnings.lenght > 666) {
+      if (this.$store.state.earnings.lenght > 50) {
         this.$store.commit('clearEarnings')
         return {}
       }

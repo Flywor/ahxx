@@ -117,7 +117,7 @@ export default defineComponent({
               lvUpDesc.push(`HP恢复+${lvUpConfig['recoveryHp']}`)
             }
             if (lvUpConfig['recoveryMp']) {
-              lvUpDesc.push(`MP恢复+${lvUpConfig['recoveryHp']}`)
+              lvUpDesc.push(`MP恢复+${lvUpConfig['recoveryMp']}`)
             }
             if (lvUpConfig['dot']) {
               lvUpDesc.push(`回合伤害+${lvUpConfig['dot']}`)
