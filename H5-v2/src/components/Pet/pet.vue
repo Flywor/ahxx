@@ -22,14 +22,14 @@
             <div>经验：{{item.exp_c}}/{{item.exp}}</div>
             <div>HP：{{item.hp}}</div>
             <div>HP成长：{{formatDouble(item.hpGrow)}}</div>
-            <div>MP：{{item.hp}}</div>
+            <div>MP：{{item.mp}}</div>
             <div>MP成长：{{formatDouble(item.mpGrow)}}</div>
             <div>物攻：{{item.atk}}</div>
             <div>物攻成长：{{formatDouble(item.atkGrow)}}</div>
             <div>法攻：{{item.magic}}</div>
             <div>法攻成长：{{formatDouble(item.magicGrow)}}</div>
-            <div>物御：{{item.def}}</div>
-            <div>物御成长：{{formatDouble(item.defGrow)}}</div>
+            <div>物防：{{item.def}}</div>
+            <div>物防成长：{{formatDouble(item.defGrow)}}</div>
             <div>法抗：{{formatPercent(item.magicDef)}}</div>
             <div>速度：{{item.speed}}</div>
             <div>速度成长：{{formatDouble(item.speedGrow)}}</div>

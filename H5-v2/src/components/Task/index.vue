@@ -1,7 +1,11 @@
 <template>
   <a-card :title="name" class="task" size="small">
+    <template #extra>
+      <span>宠物要求等级为>=</span>
+    </template>
     <a-card-grid v-for="(item, index) in taskList" :key="index" class="task_item">
-      <strong>【{{item.name}}】</strong>
+      <strong style="font-size: 15px;">【{{item.name}}】</strong>
+      <div>{{item.desc}}</div>
       <div>任务需求：{{item.needs}}</div>
       <div>任务奖励：{{item.reward}}</div>
       <a-button type="primary" size="small" @click="() => handleComplete(item._id)">
@@ -23,15 +27,15 @@ export default defineComponent({
     const name = ref('任务列表')
 
     const taskList = TaskData.map(task => {
-      const { _id, name, needGoods, needPet, needGold, rewardGoods, rewardGold } = task
+      const { _id, name, desc, needGoods, needPet, needGold, rewardGoods, rewardGold } = task
       const needs = []
       needGoods.map(t => {
         const [goodsId, num] = t
-        needs.push(`${GoodsData.find(gd => gd._id === goodsId).name}x${num}`)
+        needs.push(`【${GoodsData.find(gd => gd._id === goodsId).name}x${num}】`)
       })
       needPet.map(t => {
         const [monsterId, lv] = t
-        needs.push(`Lv.${lv} ${MonsterData.find(gd => gd._id === monsterId).name}`)
+        needs.push(`【Lv.${lv}${MonsterData.find(gd => gd._id === monsterId).name}】`)
       })
       if (needGold) {
         needs.push(`金币：${needGold}`)
@@ -39,16 +43,17 @@ export default defineComponent({
       const reward = []
       rewardGoods.map(t => {
         const [goodsId, num] = t
-        reward.push(`${GoodsData.find(gd => gd._id === goodsId).name}x${num}`)
+        reward.push(`【${GoodsData.find(gd => gd._id === goodsId).name}x${num}】`)
       })
       if (rewardGold) {
-        reward.push(`金币：${rewardGold}`)
+        reward.push(`【金币：${rewardGold}】`)
       }
       return {
         _id,
         name,
-        needs: needs.join('，'),
-        reward: reward.join('，')
+        desc,
+        needs: needs.join(''),
+        reward: reward.join('')
       }
     })
 
@@ -79,7 +84,7 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   &_item {
-    width: 20%;
+    width: 50%;
     text-align: center;
     padding: 8px;
   }

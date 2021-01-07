@@ -68,7 +68,8 @@ export default createStore({
       state.battleMap = battleMap
     },
     // 当前玩家的战宠
-    setBattlePet(state, battlePet = {}) {
+    setBattlePet(state, battlePet) {
+      battlePet = battlePet || {}
       if (battlePet.skills) {
         battlePet.skills.map(skl => {
           const { name, mark } = SkillData.find(sd => skl.id === sd._id)

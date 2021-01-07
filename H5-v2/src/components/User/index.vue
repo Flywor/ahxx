@@ -6,7 +6,7 @@
         <div>经验：{{user.exp_c}}/{{user.exp}}<a style="margin-left: 16px;" v-show="user.exp_c > user.exp" @click="handleLevelUp">升级</a></div>
         <div>金币：{{user.gold}}</div>
         <div>HP：{{user.hp}}</div>
-        <div>MP：{{user.hp}}</div>
+        <div>MP：{{user.mp}}</div>
         <div>物理攻击：{{user.atk}}</div>
         <div>物理防御：{{user.def}}</div>
         <div>物理暴击：{{formatPercent(user.strCritsRate)}}</div>
