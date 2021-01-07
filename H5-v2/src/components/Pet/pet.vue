@@ -20,12 +20,17 @@
               </a-button>
             </h3>
             <div>经验：{{item.exp_c}}/{{item.exp}}</div>
-            <div>血量：{{item.hp}}</div>
-            <div>血量成长：{{formatDouble(item.hpGrow)}}</div>
-            <div>攻击：{{item.atk}}</div>
-            <div>攻击成长：{{formatDouble(item.atkGrow)}}</div>
-            <div>防御：{{item.def}}</div>
-            <div>防御成长：{{formatDouble(item.defGrow)}}</div>
+            <div>HP：{{item.hp}}</div>
+            <div>HP成长：{{formatDouble(item.hpGrow)}}</div>
+            <div>MP：{{item.hp}}</div>
+            <div>MP成长：{{formatDouble(item.mpGrow)}}</div>
+            <div>物攻：{{item.atk}}</div>
+            <div>物攻成长：{{formatDouble(item.atkGrow)}}</div>
+            <div>法攻：{{item.magic}}</div>
+            <div>法攻成长：{{formatDouble(item.magicGrow)}}</div>
+            <div>物御：{{item.def}}</div>
+            <div>物御成长：{{formatDouble(item.defGrow)}}</div>
+            <div>法抗：{{formatPercent(item.magicDef)}}</div>
             <div>速度：{{item.speed}}</div>
             <div>速度成长：{{formatDouble(item.speedGrow)}}</div>
             <div>技能：{{item.skills.join('，')}}</div>
@@ -37,6 +42,7 @@
 </template>
 <script>
 import { getPetList, switchPetStatus, discardPet, rebornPet } from '@/api/pet'
+import { formatPercent } from '@/util/tools'
 export default {
   data() {
     return {
@@ -44,7 +50,8 @@ export default {
         0: '休息',
         1: '出战'
       },
-      petList: []
+      petList: [],
+      formatPercent
     }
   },
   mounted() {

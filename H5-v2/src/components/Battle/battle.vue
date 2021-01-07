@@ -20,7 +20,7 @@
         <a-button
           class="battle-skill-container-item"
 
-          :disabled="isEnd || !showPlayerAction"
+          :disabled="isEnd || !showPlayerAction || skill.type === 8"
           :type="selectedSkill.id === skill.id ? 'primary': null"
           @click="() => handleSelectSkill(skill)"
         >
@@ -54,6 +54,10 @@
                 <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
                 <label>{{uu.hp_c}}/{{uu.hp}}</label>
               </div>
+              <div class="mp">
+                <span :style="{ width: `${uu.mp_c / uu.mp * 100}%` }" />
+                <label>{{uu.mp_c}}/{{uu.mp}}</label>
+              </div>
             </label>
           </div>
         </div>
@@ -84,12 +88,17 @@
                 'unit-right': ii % 2 === 0,
                 'target-flag': (uu.hp_c > 0 && selectedSkill.target == 0)
               }"
+              :style="{ color: qualityMap[uu.quality].color }"
               @click="() => handleSelectTarget(uu.id)"
             >
               Lv.{{uu.lv}} {{uu.name}}
               <div class="hp">
                 <span :style="{ width: `${uu.hp_c / uu.hp * 100}%` }" />
                 <label>{{uu.hp_c}}/{{uu.hp}}</label>
+              </div>
+              <div class="mp">
+                <span :style="{ width: `${uu.mp_c / uu.mp * 100}%` }" />
+                <label>{{uu.mp_c}}/{{uu.mp}}</label>
               </div>
             </label>
           </div>
@@ -298,9 +307,9 @@ export default defineComponent({
       // 无目标技能缓存，自动战斗用
       this.$store.commit('setCachePlayerAction', {
         playerSkill: pa.playerSkill,
-        playerTarget: null,
+        playerTarget: pa.playerTarget,
         petSkill: pa.petSkill,
-        petTarget: null
+        petTarget: pa.petTarget
       })
       roundMonsterOperation(pa)
       this.playerAction = {
@@ -382,9 +391,9 @@ export default defineComponent({
         border-radius: 4px;
         width: 49%;
         text-align: center;
-        .hp {
+        .hp, .mp {
           position: absolute;
-          top: -15px;
+          top: -22px;
           left: 0;
           right: 0;
           border: 1px solid #E3EAF0;
@@ -397,6 +406,7 @@ export default defineComponent({
             position: absolute;
             right: 0;
             left: 0;
+            color: rgba(0, 0, 0, 0.65)!important;
           }
           span {
             position: absolute;
@@ -405,6 +415,12 @@ export default defineComponent({
             height: 100%;
             background: #87D068;
             transition: width 1s;
+          }
+        }
+        .mp {
+          top: -8px;
+          span {
+            background: #86caff!important;
           }
         }
       }

@@ -1,9 +1,9 @@
 <template>
   <a-card :title="name" class="synthetic" size="small">
     <a-card-grid v-for="(item, index) in composeList" :key="index" class="synthetic_item">
-      <span :style="{ color: qualityMap[item.quality].color }">
+      <strong :style="{ color: qualityMap[item.quality].color }">
         {{item.name}}
-      </span>
+      </strong>
       <div>合成材料：{{item.meterials}}</div>
       <a-button type="primary" size="small" @click="() => handleCompose(item._id)">
         合成
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import GoodsData from '@/data/Goods.json'
-import { reactive, ref, onMounted, defineComponent } from 'vue'
+import GoodsData from '@/data/goods.json'
+import { ref, defineComponent } from 'vue'
 import { qualityMap } from '@/util/enum'
 import { composeProp } from '@/api/player'
 import { message } from 'ant-design-vue'
@@ -42,11 +42,11 @@ export default defineComponent({
       })
     })
 
-    const handleCompose = async (_id) => {
+    const handleCompose = async(_id) => {
       try {
         await composeProp(_id)
         message.success('合成成功')
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
     }

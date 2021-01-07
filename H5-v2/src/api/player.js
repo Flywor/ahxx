@@ -45,3 +45,26 @@ export async function composeProp(propId) {
   return await game.send('logic.playerHandler.composeProp', { propId })
 }
 
+export async function completeTask(taskId) {
+  return await game.send('logic.playerHandler.completeTask', { taskId })
+}
+
+export async function buyItem(shopId, goodsId) {
+  return await game.send('logic.playerHandler.buyItem', { shopId, goodsId })
+}
+
+export async function joinSect(sectId) {
+  return await game.send('logic.playerHandler.joinSect', { sectId })
+}
+
+export async function getSectSkill() {
+  return await game.send('logic.playerHandler.getSectSkill')
+}
+
+export async function learnSkill(skillId) {
+  return await game.send('logic.playerHandler.learnSkill', { skillId })
+}
+
+export async function lvUpSectSkill(skillId) {
+  return await game.send('logic.playerHandler.lvUpSectSkill', { skillId })
+}

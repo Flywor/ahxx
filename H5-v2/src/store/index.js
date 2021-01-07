@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { formatDate } from '@/util/tools'
+import SkillData from '@/data/skill.json'
 export default createStore({
   state: {
     isLogin: false,
@@ -22,6 +23,10 @@ export default createStore({
     setLogin(state, islogin) {
       state.isLogin = islogin
     },
+    setExpGold(state, { exp_c, gold }) {
+      state.user.exp_c = exp_c
+      state.user.gold = gold
+    },
     // 当前玩家信息
     setUser(state, user) {
       state.user = user
@@ -31,6 +36,11 @@ export default createStore({
     },
     // 当前玩家的技能
     setUserSkills(state, skills) {
+      skills.map(skl => {
+        const { name, mark } = SkillData.find(sd => skl.id === sd._id)
+        skl.name = name
+        skl.mark = mark
+      })
       state.skills = skills
     },
     // 当前玩家的队伍
@@ -58,8 +68,15 @@ export default createStore({
       state.battleMap = battleMap
     },
     // 当前玩家的战宠
-    setBattlePet(state, battlePet) {
-      state.battlePet = battlePet || {}
+    setBattlePet(state, battlePet = {}) {
+      if (battlePet.skills) {
+        battlePet.skills.map(skl => {
+          const { name, mark } = SkillData.find(sd => skl.id === sd._id)
+          skl.name = name
+          skl.mark = mark
+        })
+      }
+      state.battlePet = battlePet
     },
     // 战斗回合   双方数据
     setBattle(state, battle) {
@@ -87,7 +104,7 @@ export default createStore({
                 const buff = t.buff.join('')
                 const debuff = t.debuff.join('')
                 action.content.push(`对 <a>${b}</a> 使用 <a>${use}</a> `)
-                if (hurt > -1) {
+                if (hurt > 0) {
                   action.content.push(`造成 <a style="color:purple">${hurt}</a> `)
                 }
                 if (buff) {
@@ -100,6 +117,9 @@ export default createStore({
             } else {
               action.content.push(`使用了<a>${use}</a>`)
             }
+          }
+          if (act.afterRound) {
+            action.content.push(act.afterRound)
           }
           actions.push(action)
         })
