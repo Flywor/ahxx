@@ -28,5 +28,5 @@ export const skillTypeMap = {
   6: '捕捉',
   7: '控制',
   8: 'buff',
-  9: '被动技能' 
+  9: '被动技能'
 }

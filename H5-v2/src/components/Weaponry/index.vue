@@ -35,17 +35,30 @@
         <a-button type="danger" size="small" @click="() => handleSellEquip(item.id)">
           售
         </a-button>
+        <a-button type="primary" size="small" @click="() => handleSellMarketEquip(item)">
+          上架
+        </a-button>
       </wapon>
     </a-card-grid>
+    <a-modal
+      v-model:visible="sellMarketVisible"
+      title="输入售价（出售成功收取10%手续费）"
+      centered
+      @ok="commitSellMarket"
+      :confirmLoading="sellMarketLoading"
+    >
+      <wapon :equip="sellMarketEquip.equip" />
+      <div>售价：<a-input v-model:value="sellMarketGold"></a-input></div>
+    </a-modal>
   </a-card>
 </template>
 
 <script>
 import { reactive, ref, defineComponent, onMounted } from 'vue'
 import { getEquip, dressEquip, sellEquip, sellEquipByQuality } from '@/api/player'
+import { sellItem } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
-// import GoodsData from '@/data/Goods.json'
 const qualityOptions = [
   { value: 0, label: '普通' },
   { value: 1, label: '稀有' },
@@ -110,8 +123,33 @@ export default defineComponent({
       await dressEquip(id)
       handleGetEquip()
     }
+
+    const sellMarketVisible = ref(false)
+    const sellMarketGold = ref(0)
+    const sellMarketEquip = reactive({
+      equip: null
+    })
+    const sellMarketLoading = ref(false)
+    const handleSellMarketEquip = (item) => {
+      sellMarketEquip.equip = item
+      sellMarketGold.value = 0
+      sellMarketVisible.value = true
+    }
+    const commitSellMarket = async() => {
+      if (sellMarketGold.value <= 0) {
+        message.error('售价不对劲')
+        return
+      }
+      sellMarketLoading.value = true
+      await sellItem(sellMarketEquip.equip.id, sellMarketGold.value)
+      handleGetEquip()
+      message.success('上架成功')
+      sellMarketLoading.value = false
+      sellMarketVisible.value = false
+    }
+
     const handleSellEquip = async(id) => {
-      const { data: { gold, materialCount }} = await sellEquip(id)
+      const { data: { gold }} = await sellEquip(id)
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币`)
     }
@@ -119,7 +157,7 @@ export default defineComponent({
       if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
         return
       }
-      const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
+      const { data: { gold }} = await sellEquipByQuality(sellQuality.value)
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币`)
     }
@@ -147,7 +185,13 @@ export default defineComponent({
       qualityOptions,
       typeMap,
       screen,
-      handleScreen
+      handleScreen,
+      sellMarketVisible,
+      sellMarketEquip,
+      sellMarketGold,
+      handleSellMarketEquip,
+      commitSellMarket,
+      sellMarketLoading
     }
   }
 })

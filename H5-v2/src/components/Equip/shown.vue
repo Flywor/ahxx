@@ -107,8 +107,7 @@ export default {
   height: 32px;
   cursor: pointer;
   &-container {
-    display: flex;
-    align-items: center;
+    position: relative;
     overflow: hidden;
     line-height: 32px;
     &-left {
@@ -119,7 +118,10 @@ export default {
     }
     &-opera {
       transition: transform .3s;
-      transform: translateX(101%)
+      transform: translateX(101%);
+      position: absolute;
+      right: 0;
+      top: 0;
     }
   }
   &:hover {

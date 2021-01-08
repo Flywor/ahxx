@@ -90,10 +90,10 @@ export default defineComponent({
             // 组装升级说明
             const { lvUpConfig } = learned
             if (lvUpConfig['consumeHp']) {
-              lvUpDesc.push(`HP消耗降低${formatPercent(lvUpConfig['consumeHp'])}`)
+              lvUpDesc.push(`HP消耗增加${formatPercent(lvUpConfig['consumeHp'])}`)
             }
             if (lvUpConfig['consumeMp']) {
-              lvUpDesc.push(`MP消耗降低${formatPercent(lvUpConfig['consumeMp'])}`)
+              lvUpDesc.push(`MP消耗增加${lvUpConfig['consumeMp']}`)
             }
             if (lvUpConfig['atkUp']) {
               lvUpDesc.push(`物攻加成+${formatPercent(lvUpConfig['atkUp'])}`)
