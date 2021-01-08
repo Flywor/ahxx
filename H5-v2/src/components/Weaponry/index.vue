@@ -113,7 +113,7 @@ export default defineComponent({
     const handleSellEquip = async(id) => {
       const { data: { gold, materialCount }} = await sellEquip(id)
       handleGetEquip()
-      message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
+      message.success(`分解完成，获得了${gold}金币`)
     }
     const handleSellEquipByQuality = async() => {
       if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
@@ -121,7 +121,7 @@ export default defineComponent({
       }
       const { data: { gold, materialCount }} = await sellEquipByQuality(sellQuality.value)
       handleGetEquip()
-      message.success(`分解完成，获得了${gold}金币，${materialCount}个相应品质的装备碎片`)
+      message.success(`分解完成，获得了${gold}金币`)
     }
     // 背包筛选
     const screen = ref('')

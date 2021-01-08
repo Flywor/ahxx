@@ -211,7 +211,7 @@ export default defineComponent({
       return this.battle.end
     },
     battleEarnings() {
-      if (this.$store.state.earnings.lenght > 666) {
+      if (this.$store.state.earnings.lenght > 50) {
         this.$store.commit('clearEarnings')
         return {}
       }
@@ -347,13 +347,13 @@ export default defineComponent({
     width: 70%;
     .battle_info{
       overflow-y: scroll;
-      height: calc(100% - 240px);
+      // height: calc(100% - 240px);
     }
   }
-.end_info{
-  height: 100%;
-  width: 30%;
-  overflow-y: scroll;
+  .end_info{
+    // height: 100%;
+    width: 30%;
+    // overflow-y: scroll;
   }
 }
 

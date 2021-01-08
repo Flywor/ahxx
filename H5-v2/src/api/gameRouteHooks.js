@@ -37,7 +37,6 @@ export default {
     if (!data.fail) {
       const goods = []
       if (data.goods) {
-        console.log(data.goods)
         data.goods.map(gdsId => {
           const gds = GoodsData.find(gd => gd._id === gdsId) || {}
           goods.push({

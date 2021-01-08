@@ -18,7 +18,7 @@
             <div v-for="a in affixList" :key="a.key" :style="{ color: 'blue' }" class="info_style">
               {{a.key}} + {{a.value}}
             </div>
-            <div v-if="equip.treasure" class="info_style" style="color:red;font-size: 18px;">{{getMarkByAffixValue(equip.treasure)}}</div>
+            <div v-if="equip.treasure" class="info_style" style="color:red;">{{getMarkByAffixValue(equip.treasure)}}</div>
           </template>
           <label v-show="p > -1">{{typeMap[p]}}：</label>
           <span :style="{ color: qualityMap[equip.quality].color, flex: 1 }">
@@ -66,8 +66,8 @@ export default {
     attrList() {
       const result = []
       const attrMap = {
-        'hp': 'hp',
-        'mp': 'mp',
+        'hp': 'HP',
+        'mp': 'MP',
         'atk': '物攻',
         'magic': '法攻',
         'def': '物防',

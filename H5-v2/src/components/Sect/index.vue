@@ -23,6 +23,7 @@
           <div v-if="skill.learned.magicUp">法攻加成：{{formatPercent(skill.learned.magicUp)}}<span v-if="skill.learned.extMagicUp">+{{formatPercent(skill.learned.extMagicUp)}}</span></div>
           <div v-if="skill.learned.defUp">防御倍率：{{formatPercent(skill.learned.defUp)}}</div>
           <div v-if="skill.learned.agiUp">速度倍率：{{formatPercent(skill.learned.agiUp)}}</div>
+          <div v-if="skill.learned.attackMp">伤害削减MP：{{formatPercent(skill.learned.attackMp)}}</div>
           <div v-if="skill.learned.hit">命中率：{{formatPercent(skill.learned.hit)}}<span v-if="skill.learned.extHit">+{{formatPercent(skill.learned.extHit)}}</span></div>
           <div>下一级：{{skill.lvUpDesc.join('，')}}</div>
           <div>升级消耗：经验{{skill.lvUpExp}}，金币{{skill.lvUpGold}}</div>
@@ -116,7 +117,7 @@ export default defineComponent({
               lvUpDesc.push(`HP恢复+${lvUpConfig['recoveryHp']}`)
             }
             if (lvUpConfig['recoveryMp']) {
-              lvUpDesc.push(`MP恢复+${lvUpConfig['recoveryHp']}`)
+              lvUpDesc.push(`MP恢复+${lvUpConfig['recoveryMp']}`)
             }
             if (lvUpConfig['dot']) {
               lvUpDesc.push(`回合伤害+${lvUpConfig['dot']}`)

@@ -21,8 +21,8 @@ export const typeMap = {
 export const skillTypeMap = {
   0: '物理伤害',
   1: '魔法伤害',
-  2: '恢复蓝量',
-  3: '恢复血量',
+  2: '恢复HP',
+  3: '恢复MP',
   4: '复活',
   5: '保护',
   6: '捕捉',

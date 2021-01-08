@@ -17,7 +17,7 @@
       <User />
     </div>
     <div class="main-page-center">
-      <Usually />
+      <Usually v-if="$store.state.user.username"/>
       <Battle />
     </div>
     <div class="main-page-right">

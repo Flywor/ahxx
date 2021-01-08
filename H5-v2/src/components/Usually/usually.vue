@@ -71,7 +71,7 @@ export default {
       XxImg,
       isBattle: false,
       autoBattleInetval: null,
-      showCom: 'Pocket',
+      showCom: 'Sect',
       commentType: {
         '装备': 'Weaponry',
         '背包': 'Pocket',
