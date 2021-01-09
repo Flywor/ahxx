@@ -30,14 +30,34 @@
     <a-card-grid v-for="(item, index) in arr.equipList" :key="index" class="eq_item">
       <wapon :equip="item" >
         <a-button type="primary" size="small" @click="() => handleDressEquip(item.id)">
-          穿
+          穿戴
         </a-button>
         <a-button type="danger" size="small" @click="() => handleSellEquip(item.id)">
-          售
+          分解
         </a-button>
         <a-button type="primary" size="small" @click="() => handleSellMarketEquip(item)">
           上架
         </a-button>
+        <a-popconfirm
+          title="确认升品？需要消耗品质相应的石头"
+          ok-text="嗯"
+          cancel-text="不"
+          @confirm="() => handleEquipQualityUp(item.id)"
+        >
+          <a-button type="primary" size="small">
+            升品
+          </a-button>
+        </a-popconfirm>
+        <a-popconfirm
+          title="确认洗白？需要消耗重铸石"
+          ok-text="嗯"
+          cancel-text="不"
+          @confirm="() => handleEquipReset(item.id)"
+        >
+          <a-button type="primary" size="small">
+            洗白
+          </a-button>
+        </a-popconfirm>
       </wapon>
     </a-card-grid>
     <a-modal
@@ -47,15 +67,19 @@
       @ok="commitSellMarket"
       :confirmLoading="sellMarketLoading"
     >
-      <wapon :equip="sellMarketEquip.equip" />
-      <div>售价：<a-input v-model:value="sellMarketGold"></a-input></div>
+      <wapon :equip="sellMarketEquip.equip">
+      </wapon>
+      <div>
+        <span>售价：</span>
+        <a-input-number style="width: 160px;" v-model:value="sellMarketGold" :min="1" />
+      </div>
     </a-modal>
   </a-card>
 </template>
 
 <script>
 import { reactive, ref, defineComponent, onMounted } from 'vue'
-import { getEquip, dressEquip, sellEquip, sellEquipByQuality } from '@/api/player'
+import { getEquip, dressEquip, sellEquip, sellEquipByQuality, equipQualityUp, equipReset } from '@/api/player'
 import { sellItem } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
@@ -161,10 +185,22 @@ export default defineComponent({
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币`)
     }
+
+    const handleEquipQualityUp = async(id) => {
+      await equipQualityUp(id)
+      handleGetEquip()
+      message.success('升品成功')
+    }
+    const handleEquipReset = async(id) => {
+      await equipReset(id)
+      handleGetEquip()
+      message.success('洗白成功')
+    }
+
     // 背包筛选
     const screen = ref('')
     const handleScreen = () => {
-      if (!screen.value) {
+      if (!screen.value && screen.value !== 0) {
         handleGetEquip()
         return
       }
@@ -181,6 +217,8 @@ export default defineComponent({
       handleDressEquip,
       handleSellEquip,
       handleSellEquipByQuality,
+      handleEquipQualityUp,
+      handleEquipReset,
       sellQuality,
       qualityOptions,
       typeMap,
@@ -206,7 +244,7 @@ export default defineComponent({
 }
 /deep/ .ant-card-grid{
   padding: 0 10px;
-  width: 25%;
+  width: 20%;
 }
 .eq{
   height: 100%;

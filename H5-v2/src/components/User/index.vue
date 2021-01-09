@@ -32,51 +32,39 @@
         <AttrComponent
           desc="体力"
           :attr="user.con"
+          :extAttr="user.extCon"
           v-model:value="conAttr"
           :canOpera="remainAttr > 0"
         />
         <AttrComponent
           desc="力量"
           :attr="user.str"
+          :extAttr="user.extStr"
           v-model:value="strAttr"
           :canOpera="remainAttr > 0"
         />
         <AttrComponent
           desc="法力"
           :attr="user.int"
+          :extAttr="user.extInt"
           v-model:value="intAttr"
           :canOpera="remainAttr > 0"
         />
         <AttrComponent
           desc="耐力"
           :attr="user.vit"
+          :extAttr="user.extVit"
           v-model:value="vitAttr"
           :canOpera="remainAttr > 0"
         />
         <AttrComponent
           desc="敏捷"
           :attr="user.agi"
+          :extAttr="user.extAgi"
           v-model:value="agiAttr"
           :canOpera="remainAttr > 0"
         />
       </a-card>
-      &nbsp;
-      <Team />
-      <a-spin tip="请等待......" :spinning="teamLoading">
-        <a-card title="我的队伍" size="small">
-          <template #extra>
-            <a @click="openTeam">组队大厅</a>
-            <a @click="handleLeaveTeam" v-if="team" style="margin-left: 8px;">离开队伍</a>
-          </template>
-          <template v-if="team">
-            <div class="team" v-for="t in team" :key="t.username">
-              <a style="color: red;width: 20px">{{t.leader?'★': ''}}</a>
-              Lv.{{t.lv}}
-              {{t.username}}
-            </div>
-          </template>
-        </a-card>
-      </a-spin>
     </div>
   </div>
 </template>
@@ -85,15 +73,9 @@
 import { defineComponent } from 'vue'
 import AttrComponent from './attr'
 import { assignAttr, resetAttr, levelUp } from '@/api/player'
-import { leaveTeam } from '@/api/team'
-import Team from '@/components/User/team'
 import { formatPercent } from '@/util/tools'
-
 export default defineComponent({
-  components: {
-    AttrComponent,
-    Team
-  },
+  components: { AttrComponent },
   data() {
     return {
       formatPercent,
@@ -101,9 +83,7 @@ export default defineComponent({
       strAttr: 0,
       intAttr: 0,
       vitAttr: 0,
-      agiAttr: 0,
-      teamLoading: false,
-      teamList: []
+      agiAttr: 0
     }
   },
   computed: {
@@ -115,9 +95,6 @@ export default defineComponent({
     },
     remainAttr() {
       return this.user.attrPoint - (this.conAttr + this.strAttr + this.intAttr + this.vitAttr + this.agiAttr)
-    },
-    team() {
-      return this.$store.state.team
     }
   },
   methods: {
@@ -129,17 +106,11 @@ export default defineComponent({
       this.vitAttr = 0
       this.agiAttr = 0
     },
-    async handleResetAssign() {
-      resetAttr()
-    },
-    async handleLeaveTeam() {
-      await leaveTeam()
-    },
     handleLevelUp() {
       levelUp()
     },
-    openTeam() {
-      this.$store.commit('showTeamHall', true)
+    async handleResetAssign() {
+      resetAttr()
     }
   }
 })

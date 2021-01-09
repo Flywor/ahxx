@@ -11,3 +11,7 @@ export async function sellItem(equipId, gold) {
 export async function buyItem(itemId) {
   return await game.send('logic.marketHandler.buyItem', { itemId })
 }
+
+export async function stopSell(itemId) {
+  return await game.send('logic.marketHandler.stopSell', { itemId })
+}

@@ -25,7 +25,6 @@ export async function sellEquip(equipId) {
 }
 
 export async function sellEquipByQuality(quality) {
-  console.log(quality)
   return await game.send('logic.playerHandler.sellEquip', { quality })
 }
 
@@ -67,4 +66,12 @@ export async function learnSkill(skillId) {
 
 export async function lvUpSectSkill(skillId) {
   return await game.send('logic.playerHandler.lvUpSectSkill', { skillId })
+}
+
+export async function equipQualityUp(equipId) {
+  return await game.send('logic.playerHandler.equipQualityUp', { equipId })
+}
+
+export async function equipReset(equipId) {
+  return await game.send('logic.playerHandler.equipReset', { equipId })
 }

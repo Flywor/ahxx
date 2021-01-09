@@ -18,9 +18,13 @@
     <a-spin tip="购买中......" :spinning="loading">
       <a-card-grid v-for="(item, index) in arr.equipList" :key="index" class="market_item">
         <wapon :equip="item.equip" />
+        <div>售价：{{item.gold}}</div>
         <div>
-          售价：{{item.gold}}
-          <a-button type="primary" size="small" @click="() => handleBuyEquip(item._id)">
+          卖家：{{item.seller}}
+          <a-button v-if="item.seller === self" size="small" @click="() => handleStopSellEquip(item._id)">
+            下架
+          </a-button>
+          <a-button v-else type="primary" size="small" @click="() => handleBuyEquip(item._id)">
             购买
           </a-button>
         </div>
@@ -31,9 +35,10 @@
 
 <script>
 import { reactive, ref, defineComponent, onMounted } from 'vue'
-import { getAllItem, buyItem } from '@/api/market'
+import { getAllItem, buyItem, stopSell } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
+import { useStore } from 'vuex'
 const qualityOptions = [
   { value: 0, label: '普通' },
   { value: 1, label: '稀有' },
@@ -77,11 +82,10 @@ const typeMap = [
   }
 ]
 export default defineComponent({
-  components: {
-    wapon
-  },
+  components: { wapon },
   setup() {
     let tempData = null
+    const store = useStore()
     const loading = ref(false)
     const arr = reactive({
       equipList: []
@@ -97,24 +101,41 @@ export default defineComponent({
     }
     const handleBuyEquip = async(id) => {
       loading.value = true
-      await buyItem(id)
+      try {
+        await buyItem(id)
+        const i = arr.equipList.findIndex(el => el.id === id)
+        arr.equipList.splice(i, 1)
+      } catch(e) {
+        console.error(e)
+      }
       loading.value = false
-      message.success('购买成功')
+    }
+    const handleStopSellEquip = async(id) => {
+      loading.value = true
+      try {
+        await stopSell(id)
+        message.success('下架成功')
+      } catch(e) {
+        console.error(e)
+      }
+      loading.value = false
     }
     // 背包筛选
     const screen = ref('')
     const handleScreen = () => {
-      if (!screen.value) {
+      if (!screen.value && screen.value !== 0) {
         arr.equipList = tempData
         return
       }
-      arr.equipList = tempData.filter(el => el.type === screen.value)
+      arr.equipList = tempData.filter(el => el.equip.type === screen.value)
     }
     return {
+      self: store.state.user.username,
       loading,
       arr,
       handleGetEquip,
       handleBuyEquip,
+      handleStopSellEquip,
       qualityOptions,
       typeMap,
       screen,
