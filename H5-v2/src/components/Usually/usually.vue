@@ -2,7 +2,7 @@
   <div class="usually">
     <div class="usually-left">
       <a-button type="primary" class="btn" @click="funcAction('装备')">装备</a-button>
-      <a-button type="primary" class="btn" @click="funcAction('背包')">背包</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('道具')">道具</a-button>
       <a-button type="primary" class="btn" @click="funcAction('合成')">合成</a-button>
       <a-button type="primary" class="btn" @click="funcAction('宠物')">宠物</a-button>
     </div>
@@ -74,7 +74,7 @@ export default {
       showCom: 'Sect',
       commentType: {
         '装备': 'Weaponry',
-        '背包': 'Pocket',
+        '道具': 'Pocket',
         '合成': 'Synthetic',
         '宠物': 'PetComponent',
         '技能': 'Skill',

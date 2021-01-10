@@ -96,7 +96,7 @@ export default defineComponent({
             lvUpDesc.push(`固定伤害+${lvUpConfig['fixedHurt']}`)
           }
           if (lvUpConfig['reviveHp']) {
-            lvUpDesc.push(`复活HP+${lvUpConfig['reviveHp']}`)
+            lvUpDesc.push(`复活HP+${formatPercent(lvUpConfig['reviveHp'])}`)
           }
           if (lvUpConfig['recoveryHp']) {
             lvUpDesc.push(`HP恢复+${lvUpConfig['recoveryHp']}`)

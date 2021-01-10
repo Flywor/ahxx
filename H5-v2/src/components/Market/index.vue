@@ -1,23 +1,33 @@
 <template>
-  <a-card title="装备市场" class="market" size="small">
+  <a-card title="市场" class="market" size="small">
     <template #extra>
       <a-select
-        v-model:value="screen"
+        v-model:value="itemType"
         style="width: 120px"
         size="small"
-        :allowClear='true'
+      >
+        <a-select-option value="prop">道具</a-select-option>
+        <a-select-option value="pet">宠物</a-select-option>
+        <a-select-option value="equip">装备</a-select-option>
+      </a-select>
+      <a-select
+        v-if="itemType === 'equip'"
+        v-model:value="equipType"
+        style="width: 120px"
+        size="small"
       >
         <a-select-option v-for="qo in typeMap" :key="qo.type" :value="qo.type">
           {{qo.name}}
         </a-select-option>
       </a-select>
-      <a-button @click="handleScreen" type="primary" size="small">确认部位筛选</a-button>
       <span style="width:15px;display:inline-block"></span>
-      <a @click="handleGetEquip" class="action_style">刷新</a>
+      <a-button @click="handleGetItemList" type="primary" size="small">搜索</a-button>
     </template>
     <a-spin tip="购买中......" :spinning="loading">
-      <a-card-grid v-for="(item, index) in arr.equipList" :key="index" class="market_item">
-        <wapon :equip="item.equip" />
+      <a-card-grid v-for="(item, index) in arr.itemList" :key="index" class="market_item">
+        <wapon v-if="item.equip" :equip="item.equip" />
+        <pet v-if="item.pet" :pet="item.pet" />
+        <prop v-if="item.prop" :prop="item.prop" />
         <div>售价：{{item.gold}}</div>
         <div>
           卖家：{{item.seller}}
@@ -38,15 +48,10 @@ import { reactive, ref, defineComponent, onMounted } from 'vue'
 import { getAllItem, buyItem, stopSell } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
+import pet from '@/components/Pet/info.vue'
+import prop from '@/components/Pocket/prop.vue'
+import GoodsData from '@/data/goods.json'
 import { useStore } from 'vuex'
-const qualityOptions = [
-  { value: 0, label: '普通' },
-  { value: 1, label: '稀有' },
-  { value: 2, label: '神话' },
-  { value: 3, label: '传说' },
-  { value: 4, label: '不朽' },
-  { value: 5, label: '至宝' }
-]
 const typeMap = [
   {
     type: 0,
@@ -82,30 +87,41 @@ const typeMap = [
   }
 ]
 export default defineComponent({
-  components: { wapon },
+  components: { wapon, pet, prop },
   setup() {
-    let tempData = null
     const store = useStore()
     const loading = ref(false)
     const arr = reactive({
-      equipList: []
+      itemList: []
     })
-    onMounted(async() => {
-      await handleGetEquip()
-      arr.equipList = tempData
+    onMounted(() => {
+      message.info('首次进来请去右上角选择查询条件进行搜索')
     })
-    const handleGetEquip = async() => {
-      const { data } = await getAllItem()
-      tempData = data
-      handleScreen()
+
+    const itemType = ref('prop')
+    const equipType = ref(5)
+    const handleGetItemList = async() => {
+      const { data } = await getAllItem({ searchType: itemType.value, equipType: equipType.value })
+      if (itemType.value === 'prop') {
+        data.map(d => {
+          d.prop = GoodsData.find(g => g._id === d.prop)
+          d.prop.count = d.propCount
+          return d
+        })
+      }
+      arr.itemList = data
+      if (data.length === 0) {
+        message.info('无数据，去右上角切换查询条件后再搜索')
+      }
     }
     const handleBuyEquip = async(id) => {
       loading.value = true
       try {
         await buyItem(id)
-        const i = arr.equipList.findIndex(el => el.id === id)
-        arr.equipList.splice(i, 1)
-      } catch(e) {
+        const i = arr.itemList.findIndex(el => el.id === id)
+        arr.itemList.splice(i, 1)
+        message.success('购买成功')
+      } catch (e) {
         console.error(e)
       }
       loading.value = false
@@ -114,32 +130,24 @@ export default defineComponent({
       loading.value = true
       try {
         await stopSell(id)
+        const i = arr.itemList.findIndex(el => el.id === id)
+        arr.itemList.splice(i, 1)
         message.success('下架成功')
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
       loading.value = false
-    }
-    // 背包筛选
-    const screen = ref('')
-    const handleScreen = () => {
-      if (!screen.value && screen.value !== 0) {
-        arr.equipList = tempData
-        return
-      }
-      arr.equipList = tempData.filter(el => el.equip.type === screen.value)
     }
     return {
       self: store.state.user.username,
       loading,
       arr,
-      handleGetEquip,
+      itemType,
+      equipType,
+      handleGetItemList,
       handleBuyEquip,
       handleStopSellEquip,
-      qualityOptions,
-      typeMap,
-      screen,
-      handleScreen
+      typeMap
     }
   }
 })

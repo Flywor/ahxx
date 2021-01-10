@@ -5,7 +5,7 @@
   <div v-if="skill.ability">目标数量：{{skill.ability}}<span v-if="skill.extAbility">+{{skill.extAbility}}</span></div>
   <div v-if="skill.round">持续回合：{{skill.round}}<span v-if="skill.extRound">+{{skill.extRound}}</span></div>
   <div v-if="skill.dot">回合伤害：{{skill.dot}}<span v-if="skill.extDot">+{{skill.extDot}}</span></div>
-  <div v-if="skill.reviveHp">复活HP：{{formatPercent(skill.reviveHp)}}<span v-if="skill.reviveHp">+{{formatPercent(skill.reviveHp)}}</span></div>
+  <div v-if="skill.reviveHp">复活HP：{{formatPercent(skill.reviveHp)}}<span v-if="skill.extReviveHp">+{{formatPercent(skill.extReviveHp)}}</span></div>
   <div v-if="skill.recoveryHp">恢复HP：{{skill.recoveryHp}}<span v-if="skill.extRecoveryHp">+{{skill.extRecoveryHp}}</span></div>
   <div v-if="skill.recoveryMp">恢复MP：{{skill.recoveryMp}}<span v-if="skill.extRecoveryMp">+{{skill.extRecoveryMp}}</span></div>
   <div v-if="skill.fixedHurt">固定伤害：{{skill.fixedHurt}}<span v-if="skill.extFixedHurt">+{{skill.extFixedHurt}}</span></div>

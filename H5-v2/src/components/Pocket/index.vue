@@ -5,36 +5,45 @@
     </template>
     <a-card-grid :hoverable="false" v-for="(item, index) in content.arr" :key="index" class="pocket_item">
       <div class="left">
-        <a-popover>
-          <template #title>
-            <h3 :style="{ color: qualityMap[item.quality].color }">
-              {{item.name}}
-            </h3>
-          </template>
-          <template #content>
-            <div style="padding-left: 8px;">
-              {{item.mark}}
-            </div>
-          </template>
-          <span :style="{ color: qualityMap[item.quality].color }">{{item.name}}</span>x{{item.count}}
-        </a-popover>
+        <Prop :prop="item" />
       </div>
-      <div class="right" v-if="item.type === 0">
-        <a-button type="primary" size="small" @click="() => handleUseProp(item)">
+      <div class="right">
+        <a-button v-if="item.type === 0" type="primary" size="small" @click="() => handleUseProp(item)">
           使用
+        </a-button>
+        <a-button size="small" @click="() => handleSellMarketProp(item)">
+          上架
         </a-button>
       </div>
     </a-card-grid>
+    <a-modal
+      v-model:visible="sellMarketVisible"
+      title="输入售价（出售成功收取10%手续费）"
+      centered
+      @ok="commitSellMarket"
+      :confirmLoading="sellMarketLoading"
+    >
+      <Prop :prop="sellMarketProp.prop" />
+      <div>
+        <span>数量：</span>
+        <a-input-number style="width: 160px;" v-model:value="sellMarketCount" :min="1" />
+      </div>
+      <div>
+        <span>售价：</span>
+        <a-input-number style="width: 160px;" v-model:value="sellMarketGold" :min="1" />
+      </div>
+    </a-modal>
   </a-card>
 </template>
 <script>
 import GoodsData from '@/data/goods.json'
 import { reactive, ref, onMounted, defineComponent } from 'vue'
 import { getProp, useProp } from '@/api/player'
-import { qualityMap } from '@/util/enum'
 import { message } from 'ant-design-vue'
-
+import { marketSellProp } from '@/api/market'
+import Prop from './prop'
 export default defineComponent({
+  components: { Prop },
   setup() {
     const name = ref('背包')
     const content = reactive({
@@ -67,12 +76,52 @@ export default defineComponent({
     onMounted(() => {
       handleGetProps()
     })
+
+    const sellMarketVisible = ref(false)
+    const sellMarketCount = ref(1)
+    const sellMarketGold = ref(1)
+    const sellMarketProp = reactive({
+      prop: null
+    })
+    const sellMarketLoading = ref(false)
+    const handleSellMarketProp = (item) => {
+      sellMarketProp.prop = item
+      sellMarketGold.value = 1
+      sellMarketVisible.value = true
+    }
+    const commitSellMarket = async() => {
+      if (sellMarketGold.value <= 0) {
+        message.error('售价不对劲')
+        return
+      }
+      if (sellMarketCount.value <= 0) {
+        message.error('数量不对劲')
+        return
+      }
+      sellMarketLoading.value = true
+      try {
+        await marketSellProp(sellMarketProp.prop.id, sellMarketCount.value, sellMarketGold.value)
+        handleGetProps()
+        message.success('上架成功')
+      } catch (e) {
+        console.error(e)
+      }
+      sellMarketLoading.value = false
+      sellMarketVisible.value = false
+    }
+
     return {
       name,
       content,
-      qualityMap,
       handleUseProp,
-      handleGetProps
+      handleGetProps,
+      sellMarketVisible,
+      sellMarketCount,
+      sellMarketGold,
+      sellMarketProp,
+      handleSellMarketProp,
+      sellMarketLoading,
+      commitSellMarket
     }
   }
 })

@@ -80,7 +80,7 @@
 <script>
 import { reactive, ref, defineComponent, onMounted } from 'vue'
 import { getEquip, dressEquip, sellEquip, sellEquipByQuality, equipQualityUp, equipReset } from '@/api/player'
-import { sellItem } from '@/api/market'
+import { marketSellEquip } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
 const qualityOptions = [
@@ -149,14 +149,14 @@ export default defineComponent({
     }
 
     const sellMarketVisible = ref(false)
-    const sellMarketGold = ref(0)
+    const sellMarketGold = ref(1)
     const sellMarketEquip = reactive({
       equip: null
     })
     const sellMarketLoading = ref(false)
     const handleSellMarketEquip = (item) => {
       sellMarketEquip.equip = item
-      sellMarketGold.value = 0
+      sellMarketGold.value = 1
       sellMarketVisible.value = true
     }
     const commitSellMarket = async() => {
@@ -165,7 +165,7 @@ export default defineComponent({
         return
       }
       sellMarketLoading.value = true
-      await sellItem(sellMarketEquip.equip.id, sellMarketGold.value)
+      await marketSellEquip(sellMarketEquip.equip.id, sellMarketGold.value)
       handleGetEquip()
       message.success('上架成功')
       sellMarketLoading.value = false
