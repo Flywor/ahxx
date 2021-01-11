@@ -56,28 +56,28 @@ const qualityOptions = [
 ]
 const typeMap = [
   {
+    type: 6,
+    name: '武器'
+  },
+  {
     type: 1,
     name: '头盔'
-  },
-  {
-    type: 2,
-    name: '手套'
-  },
-  {
-    type: 3,
-    name: '鞋子'
   },
   {
     type: 4,
     name: '胸甲'
   },
   {
+    type: 2,
+    name: '手套'
+  },
+  {
     type: 5,
     name: '腰带'
   },
   {
-    type: 6,
-    name: '武器'
+    type: 3,
+    name: '鞋子'
   },
   {
     type: 7,

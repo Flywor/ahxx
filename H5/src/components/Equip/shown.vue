@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-import AffixData from '@/data/affix.json'
+import AffixData from '@/data/Affix.json'
 import { qualityMap, typeMap } from '@/util/enum'
 export default {
   props: {

@@ -1,5 +1,5 @@
 import store from '../store/index'
-import GoodsData from '@/data/goods.json'
+import GoodsData from '@/data/Goods.json'
 // ws路由推送处理
 export default {
   // 用户回合结算会更新的信息 -- 推送当前用户 -- 战斗结束触发
@@ -45,7 +45,7 @@ export default {
             name: gds.name || '未知物品'
           })
         })
-        data.goods = goods 
+        data.goods = goods
       }
       // console.log(data)
       // store.commit('collectEarnings', `获得经验${data.exp}${data.goods.length ? `，获得物品${data.goods.join('，')}` : ''}${data.equip ? `，获得装备${data.equip.name}` : ''}`)

@@ -12,7 +12,7 @@
 
 <script>
 import ShopData from '@/data/shop.json'
-import GoodsData from '@/data/goods.json'
+import GoodsData from '@/data/Goods.json'
 import { ref, defineComponent } from 'vue'
 import { buyItem } from '@/api/player'
 import { message } from 'ant-design-vue'

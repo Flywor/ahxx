@@ -13,7 +13,7 @@
 
 <script>
 import TaskData from '@/data/task.json'
-import GoodsData from '@/data/goods.json'
+import GoodsData from '@/data/Goods.json'
 import MonsterData from '@/data/monster.json'
 import { ref, defineComponent } from 'vue'
 import { completeTask } from '@/api/player'

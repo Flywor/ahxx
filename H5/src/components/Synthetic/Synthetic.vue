@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import GoodsData from '@/data/goods.json'
+import GoodsData from '@/data/Goods.json'
 import { ref, defineComponent } from 'vue'
 import { qualityMap } from '@/util/enum'
 import { composeProp } from '@/api/player'
