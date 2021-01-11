@@ -135,10 +135,11 @@ export default defineComponent({
       message.success(`分解完成，获得了${gold}金币`)
     }
     const handleSellEquipByQuality = async() => {
-      if (!arr.equipList.some(el => el.quality === sellQuality.value)) {
+      const quality = Number(sellQuality.value)
+      if (!arr.equipList.some(el => el.quality == quality)) {
         return
       }
-      const { data: { gold }} = await sellEquipByQuality(sellQuality.value)
+      const { data: { gold }} = await sellEquipByQuality(quality)
       handleGetEquip()
       message.success(`分解完成，获得了${gold}金币`)
     }

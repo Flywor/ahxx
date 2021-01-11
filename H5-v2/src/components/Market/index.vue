@@ -68,7 +68,7 @@ export default defineComponent({
     const itemType = ref('prop')
     const equipType = ref('5')
     const handleGetItemList = async() => {
-      const { data } = await getAllItem({ searchType: itemType.value, equipType: equipType.value })
+      const { data } = await getAllItem({ searchType: itemType.value, equipType: Number(equipType.value) })
       if (itemType.value === 'prop') {
         data.map(d => {
           d.prop = GoodsData.find(g => g._id === d.prop)
