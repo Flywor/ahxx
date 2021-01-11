@@ -3,47 +3,46 @@
     <template #extra>
       <a @click="getPet">刷新</a>
     </template>
-    <a-list :grid="{ gutter: 8, lg: 1, xxl: 3 }" :data-source="petList">
-      <template #renderItem="{ item }">
-        <a-list-item>
-          <a-card>
-            <h3>
-              Lv.{{item.lv}} {{item.name}}
-              <a-button type="primary" size="small" @click="() => handleSwitchPetStatus(item.id)">
-                {{statusMap[item.status]}}
-              </a-button>
-              <a-button type="danger" size="small" @click="() => handleDiscardPet(item.id)">
-                丢弃
-              </a-button>
-              <a-button size="small" @click="() => handleRebornPet(item.id)">
-                洗宠
-              </a-button>
-            </h3>
-            <div>经验：{{item.exp_c}}/{{item.exp}}</div>
-            <div>HP：{{item.hp}}</div>
-            <div>HP成长：{{formatDouble(item.hpGrow)}}</div>
-            <div>MP：{{item.mp}}</div>
-            <div>MP成长：{{formatDouble(item.mpGrow)}}</div>
-            <div>物攻：{{item.atk}}</div>
-            <div>物攻成长：{{formatDouble(item.atkGrow)}}</div>
-            <div>法攻：{{item.magic}}</div>
-            <div>法攻成长：{{formatDouble(item.magicGrow)}}</div>
-            <div>物防：{{item.def}}</div>
-            <div>物防成长：{{formatDouble(item.defGrow)}}</div>
-            <div>法抗：{{formatPercent(item.magicDef)}}</div>
-            <div>速度：{{item.speed}}</div>
-            <div>速度成长：{{formatDouble(item.speedGrow)}}</div>
-            <div>技能：{{item.skills.join('，')}}</div>
-          </a-card>
-        </a-list-item>
-      </template>
-    </a-list>
+    <a-card-grid v-for="(item, index) in petList" :key="index" class="pet_item">
+      <PetDetail :pet="item" />
+      <div>
+        <a-button type="primary" size="small" @click="() => handleSwitchPetStatus(item.id)">
+          {{statusMap[item.status]}}
+        </a-button>
+        <a-button type="danger" size="small" @click="() => handleDiscardPet(item.id)">
+          丢弃
+        </a-button>
+        <a-button size="small" @click="() => handleRebornPet(item.id)">
+          洗宠
+        </a-button>
+        <a-button type="primary" size="small" @click="() => handlerSellPet(item)">
+          上架
+        </a-button>
+      </div>
+    </a-card-grid>
+    <a-modal
+      v-model:visible="sellPetVisible"
+      title="输入售价（出售成功收取10%手续费）"
+      centered
+      @ok="commitSellMarket"
+      :confirmLoading="sellMarketLoading"
+    >
+      <PetDetail :pet="sellMarketPet" />
+      <div>
+        <span>售价：</span>
+        <a-input-number style="width: 160px;" v-model:value="sellMarketGold" :min="1" />
+      </div>
+    </a-modal>
   </a-card>
 </template>
 <script>
 import { getPetList, switchPetStatus, discardPet, rebornPet } from '@/api/pet'
+import { marketSellPet } from '@/api/market'
 import { formatPercent } from '@/util/tools'
+import { message } from 'ant-design-vue'
+import PetDetail from './info'
 export default {
+  components: { PetDetail },
   data() {
     return {
       statusMap: {
@@ -51,16 +50,17 @@ export default {
         1: '出战'
       },
       petList: [],
-      formatPercent
+      formatPercent,
+      sellPetVisible: false,
+      sellMarketLoading: false,
+      sellMarketPet: null,
+      sellMarketGold: 1
     }
   },
   mounted() {
     this.getPet()
   },
   methods: {
-    formatDouble(val) {
-      return Number(val).toFixed(2)
-    },
     async getPet() {
       const { data } = await getPetList()
       this.petList = data
@@ -74,17 +74,52 @@ export default {
       this.getPet()
     },
     async handleRebornPet(petId) {
-      console.log(petId)
       await rebornPet(petId)
       this.getPet()
+    },
+    handlerSellPet(pet) {
+      this.sellMarketPet = pet
+      this.sellMarketGold = 1
+      this.sellPetVisible = true
+    },
+    async commitSellMarket() {
+      if (this.sellMarketGold <= 0) {
+        message.error('售价不对劲')
+        return
+      }
+      this.sellMarketLoading = true
+      await marketSellPet(this.sellMarketPet.id, this.sellMarketGold)
+      this.getPet()
+      message.success('上架成功')
+      this.sellMarketLoading = false
+      this.sellPetVisible = false
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.pet {
-  width: 100%;
+.pet /deep/ .ant-card-body{
+  overflow-y: scroll!important;
+  height: calc(100% - 38px)!important;
+  margin-right: -10px;
+}
+/deep/ .ant-card-grid{
+  padding: 0 10px;
+  width: 20%;
+}
+.pet{
   height: 100%;
-  overflow-y: auto;
+  width: 100%;
+  .action_style{
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  .pet_item{
+    padding: 8px;
+    & > div {
+      display: flex;
+    }
+  }
 }
 </style>

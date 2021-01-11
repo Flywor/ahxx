@@ -3,11 +3,15 @@
     <div>
       {{desc}}：{{attr}}
     </div>
-    <label
-      class="plus-attr"
-      v-if="value > 0"
-    >
-      +{{value}}
+    <span>
+      <template v-if="extAttr">
+        +{{extAttr}}
+      </template>
+    </span>
+    <label class="plus-attr">
+      <template v-if="value > 0">
+        +{{value}}
+      </template>
     </label>
     <a-button
       type="primary"
@@ -40,6 +44,7 @@ export default defineComponent({
   props: {
     desc: String,
     attr: Number,
+    extAttr: Number,
     value: Number,
     canOpera: Boolean
   },
@@ -74,8 +79,9 @@ export default defineComponent({
 .attr {
   display: flex;
   margin-bottom: 8px;
-  & > div {
+  & > span {
     flex: 1;
+    color: orange;
   }
   .plus-attr {
     color: red;

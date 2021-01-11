@@ -2,7 +2,7 @@
   <div class="usually">
     <div class="usually-left">
       <a-button type="primary" class="btn" @click="funcAction('装备')">装备</a-button>
-      <a-button type="primary" class="btn" @click="funcAction('背包')">背包</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('道具')">道具</a-button>
       <a-button type="primary" class="btn" @click="funcAction('合成')">合成</a-button>
       <a-button type="primary" class="btn" @click="funcAction('宠物')">宠物</a-button>
     </div>
@@ -11,7 +11,7 @@
     </div>
     <div class="usually-right">
       <a-button type="primary" class="btn" @click="funcAction('商店')">商店</a-button>
-      <a-button type="primary" class="btn" @click="funcAction('摆摊')">摆摊</a-button>
+      <a-button type="primary" class="btn" @click="funcAction('市场')">市场</a-button>
       <a-button type="primary" class="btn" @click="funcAction('任务')">任务</a-button>
       <a-button type="primary" class="btn" @click="funcAction('门派')">门派</a-button>
     </div>
@@ -49,7 +49,7 @@ import Pocket from '@/components/Pocket/index.vue' // 背包
 import Synthetic from '@/components/Synthetic/index.vue' // 合成
 import Weaponry from '@/components/Weaponry/index.vue' // 装备
 import Shop from '@/components/Shop/index.vue' // 商店
-import Pedlat from '@/components/Pedlat/index.vue' // 摆摊
+import Market from '@/components/Market/index.vue' // 市场
 import Task from '@/components/Task/index.vue' // 任务
 import Sect from '@/components/Sect/index.vue' // 百科
 
@@ -61,7 +61,7 @@ export default {
     Synthetic,
     Weaponry,
     Shop,
-    Pedlat,
+    Market,
     Task,
     Sect
   },
@@ -74,12 +74,12 @@ export default {
       showCom: 'Sect',
       commentType: {
         '装备': 'Weaponry',
-        '背包': 'Pocket',
+        '道具': 'Pocket',
         '合成': 'Synthetic',
         '宠物': 'PetComponent',
         '技能': 'Skill',
         '商店': 'Shop',
-        '摆摊': 'Pedlat',
+        '市场': 'Market',
         '任务': 'Task',
         '门派': 'Sect'
       }

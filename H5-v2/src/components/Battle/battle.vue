@@ -222,7 +222,7 @@ export default defineComponent({
     setInterval(() => {
       if (this.timeout >= 0) {
         this.timeout--
-        if (this.timeout === (this.maxRoundTimeout - 3) && this.autoBattle) {
+        if (this.autoBattle) {
           this.playerAction = { ...this.$store.state.cachePlayerAction }
 
           if (!this.playerAction.playerSkill) {
@@ -303,6 +303,7 @@ export default defineComponent({
     },
     sendRoundOperation() {
       this.showPlayerAction = false
+      this.timeout = -1
       const pa = this.playerAction
       // 无目标技能缓存，自动战斗用
       this.$store.commit('setCachePlayerAction', {

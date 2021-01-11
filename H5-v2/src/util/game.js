@@ -33,6 +33,22 @@ Object.keys(RouteHooks).map(route => {
   pinus.on(route, RouteHooks[route])
 })
 
+// pinus.on('close', (a) => {
+//   if (ok) {
+//     Modal.confirm({
+//       content: '连接已断开',
+//       centered: true,
+//       maskClosable: false,
+//       cancelText: 'who cares?',
+//       closable: false,
+//       okText: '返回登录',
+//       onOk() {
+//         location.reload()
+//       }
+//     })
+//   }
+// })
+
 export default {
   login(userdata) {
     return new Promise((r, j) => {

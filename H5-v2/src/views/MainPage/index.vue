@@ -21,29 +21,35 @@
       <Battle />
     </div>
     <div class="main-page-right">
-      <a-button type="primary" @click="showDrawer">
-        Open
-      </a-button>
-      <a-drawer
-        title="功能列表"
-        placement="right"
-        v-model:visible="visible"
-        :mask='false'
-        width='400'
-      >
-        测试功能
-      </a-drawer>
       <Equip />
+      &nbsp;
+      <Team />
+      <a-spin tip="请等待......" :spinning="teamLoading">
+        <a-card title="我的队伍" size="small">
+          <template #extra>
+            <a @click="openTeam">组队大厅</a>
+            <a @click="handleLeaveTeam" v-if="team" style="margin-left: 8px;">离开队伍</a>
+          </template>
+          <template v-if="team">
+            <div class="team" v-for="t in team" :key="t.username">
+              <a style="color: red;width: 20px">{{t.leader?'★': ''}}</a>
+              Lv.{{t.lv}}
+              {{t.username}}
+            </div>
+          </template>
+        </a-card>
+      </a-spin>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
 import User from '@components/User'
 import Battle from '@components/Battle/battle'
 import Usually from '@components/Usually/usually'
 import Equip from '@components/Equip/equip'
+import { leaveTeam } from '@/api/team'
+import Team from '@/components/User/team'
 import {
   GithubOutlined,
   QqOutlined,
@@ -52,19 +58,28 @@ import {
   MessageOutlined
 } from '@ant-design/icons-vue'
 
-export default defineComponent({
-  components: { User, Battle, Usually, Equip, GithubOutlined, QqOutlined, SettingOutlined, LogoutOutlined, MessageOutlined },
-  setup() {
-    const visible = ref(false)
-    const showDrawer = () => {
-      visible.value = true
-    }
+export default {
+  components: { User, Battle, Usually, Equip, GithubOutlined, QqOutlined, SettingOutlined, LogoutOutlined, MessageOutlined, Team },
+  data() {
     return {
-      visible,
-      showDrawer
+      teamLoading: false,
+      teamList: []
+    }
+  },
+  computed: {
+    team() {
+      return this.$store.state.team
+    }
+  },
+  methods: {
+    async handleLeaveTeam() {
+      await leaveTeam()
+    },
+    openTeam() {
+      this.$store.commit('showTeamHall', true)
     }
   }
-})
+}
 </script>
 
 <style lang="less" scoped>

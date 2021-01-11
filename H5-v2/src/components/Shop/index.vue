@@ -2,6 +2,7 @@
   <a-card :title="name" class="shop" size="small">
     <a-card-grid v-for="(item, index) in sellGoods" :key="index" class="shop_item">
       <strong :style="{ color: qualityMap[item.quality].color }">【{{item.name}}】</strong>
+      <div>{{item.mark}}</div>
       <div>售价：{{item.gold}}</div>
       <a-button type="primary" size="small" @click="() => handleBuy(item._id)">
         购买
@@ -27,6 +28,7 @@ export default defineComponent({
       return {
         _id: goodsId,
         name: gds.name,
+        mark: gds.mark,
         quality: gds.quality,
         gold
       }
