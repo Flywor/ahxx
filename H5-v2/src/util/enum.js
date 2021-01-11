@@ -7,6 +7,10 @@ export const qualityMap = {
   5: { color: '#fa1616', name: '至宝' }
 }
 
+export const qualityOptions = Object.keys(qualityMap).map(value => {
+  return { value, label: qualityMap[value].name }
+})
+
 export const typeMap = {
   0: '头盔',
   1: '手套',
@@ -17,6 +21,10 @@ export const typeMap = {
   6: '戒指',
   7: '项链'
 }
+
+export const weaponOptions = Object.keys(typeMap).map(value => {
+  return { value, label: typeMap[value] }
+})
 
 export const skillTypeMap = {
   0: '物理伤害',
@@ -29,4 +37,12 @@ export const skillTypeMap = {
   7: '控制',
   8: 'buff',
   9: '被动技能'
+}
+
+export const petQualityMap = {
+  0: { color: 'rgba(0, 0, 0, 0.65)', name: '野兽' },
+  1: { color: '#0779e4', name: '灵兽' },
+  2: { color: '#9d0191', name: '神兽' },
+  3: { color: '#ff7e67', name: '仙兽' },
+  4: { color: '#f1c550', name: '圣兽' },
 }

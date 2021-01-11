@@ -16,8 +16,8 @@
         style="width: 120px"
         size="small"
       >
-        <a-select-option v-for="qo in typeMap" :key="qo.type" :value="qo.type">
-          {{qo.name}}
+        <a-select-option v-for="qo in weaponOptions" :key="qo.value" :value="qo.value">
+          {{qo.label}}
         </a-select-option>
       </a-select>
       <span style="width:15px;display:inline-block"></span>
@@ -52,40 +52,7 @@ import pet from '@/components/Pet/info.vue'
 import prop from '@/components/Pocket/prop.vue'
 import GoodsData from '@/data/goods.json'
 import { useStore } from 'vuex'
-const typeMap = [
-  {
-    type: 0,
-    name: '头盔'
-  },
-  {
-    type: 1,
-    name: '手套'
-  },
-  {
-    type: 2,
-    name: '鞋子'
-  },
-  {
-    type: 3,
-    name: '胸甲'
-  },
-  {
-    type: 4,
-    name: '腰带'
-  },
-  {
-    type: 5,
-    name: '武器'
-  },
-  {
-    type: 6,
-    name: '戒指'
-  },
-  {
-    type: 7,
-    name: '项链'
-  }
-]
+import { weaponOptions } from '@/util/enum'
 export default defineComponent({
   components: { wapon, pet, prop },
   setup() {
@@ -99,7 +66,7 @@ export default defineComponent({
     })
 
     const itemType = ref('prop')
-    const equipType = ref(5)
+    const equipType = ref('5')
     const handleGetItemList = async() => {
       const { data } = await getAllItem({ searchType: itemType.value, equipType: equipType.value })
       if (itemType.value === 'prop') {
@@ -147,7 +114,7 @@ export default defineComponent({
       handleGetItemList,
       handleBuyEquip,
       handleStopSellEquip,
-      typeMap
+      weaponOptions
     }
   }
 })

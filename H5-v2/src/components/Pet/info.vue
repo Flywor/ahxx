@@ -1,5 +1,5 @@
 <template>
-  <h3>
+  <h3 :style="{ color: getColor(pet.quality) }">
     Lv.{{pet.lv}} {{pet.name}}
   </h3>
   <div v-if="pet.exp">经验：{{pet.exp_c}}/{{pet.exp}}</div>
@@ -15,6 +15,7 @@
 <script>
 import { formatPercent } from '@/util/tools'
 import SkillData from '@/data/skill.json'
+import { petQualityMap } from '@/util/enum'
 export default {
   props: {
     pet: {
@@ -35,6 +36,12 @@ export default {
           names.push(skl.name || '未知')
         })
         return names.join('，')
+      },
+      getColor(quality) {
+        const map = petQualityMap[quality]
+        if (map) {
+          return map.color
+        }
       }
     }
   }
