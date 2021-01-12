@@ -348,13 +348,13 @@ export default defineComponent({
     width: 70%;
     .battle_info{
       overflow-y: scroll;
-      // height: calc(100% - 240px);
+      height: calc(100% - 240px);
     }
   }
   .end_info{
-    // height: 100%;
+    height: 100%;
     width: 30%;
-    // overflow-y: scroll;
+    overflow-y: scroll;
   }
 }
 

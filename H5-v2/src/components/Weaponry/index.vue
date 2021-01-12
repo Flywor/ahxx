@@ -1,17 +1,18 @@
 <template>
   <a-card :title="name" class="eq" size="small">
     <template #extra>
+      部位筛选
       <a-select
         v-model:value="screen"
         style="width: 120px"
         size="small"
         :allowClear='true'
+        @change="filterEq"
       >
-        <a-select-option v-for="qo in weaponOptions" :key="qo.value" :value="qo.value">
-          {{qo.label}}
+        <a-select-option v-for="qo in typeMap" :key="qo.type" :value="qo.type">
+          {{qo.name}}
         </a-select-option>
       </a-select>
-      <a-button @click="handleScreen" type="primary" size="small">确认部位筛选</a-button>
       <span style="width:15px;display:inline-block"></span>
       <a-select
         v-model:value="sellQuality"
@@ -84,6 +85,41 @@ import { marketSellEquip } from '@/api/market'
 import { message } from 'ant-design-vue'
 import wapon from '@/components/Equip/shown.vue'
 import { qualityOptions, weaponOptions } from '@/util/enum'
+const typeMap = [
+  {
+    type: 6,
+    name: '武器'
+  },
+  {
+    type: 1,
+    name: '头盔'
+  },
+  {
+    type: 4,
+    name: '胸甲'
+  },
+  {
+    type: 2,
+    name: '手套'
+  },
+  {
+    type: 5,
+    name: '腰带'
+  },
+  {
+    type: 3,
+    name: '鞋子'
+  },
+  {
+    type: 7,
+    name: '戒指'
+  },
+  {
+    type: 8,
+    name: '项链'
+  }
+]
+
 export default defineComponent({
   components: { wapon },
   setup() {
@@ -136,7 +172,7 @@ export default defineComponent({
     }
     const handleSellEquipByQuality = async() => {
       const quality = Number(sellQuality.value)
-      if (!arr.equipList.some(el => el.quality == quality)) {
+      if (!arr.equipList.some(el => el.quality === quality)) {
         return
       }
       const { data: { gold }} = await sellEquipByQuality(quality)
@@ -157,14 +193,14 @@ export default defineComponent({
 
     // 背包筛选
     const screen = ref('')
-    const handleScreen = () => {
-      if (!screen.value && screen.value !== 0) {
+    const filterEq = async(value) => {
+      if (!value) {
         handleGetEquip()
         return
       }
       getEquip(1).then(res => {
         arr.equipList = res.data.list.filter(item => {
-          return item.type === screen.value
+          return item.type + 1 === value
         })
       })
     }
@@ -181,13 +217,14 @@ export default defineComponent({
       qualityOptions,
       weaponOptions,
       screen,
-      handleScreen,
+      filterEq,
       sellMarketVisible,
       sellMarketEquip,
       sellMarketGold,
       handleSellMarketEquip,
       commitSellMarket,
-      sellMarketLoading
+      sellMarketLoading,
+      typeMap
     }
   }
 })
