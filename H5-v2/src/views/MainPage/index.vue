@@ -32,7 +32,7 @@
           </template>
           <template v-if="team">
             <div class="team" v-for="t in team" :key="t.username">
-              <a style="color: red;width: 20px">{{t.leader?'★': ''}}</a>
+              <a style="color: red;width: 20px;display: inline-block">{{t.leader?'★': ' '}}</a>
               Lv.{{t.lv}}
               {{t.username}}
             </div>
