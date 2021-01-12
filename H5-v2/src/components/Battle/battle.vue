@@ -12,6 +12,7 @@
         >
           自动战斗
         </a-checkbox>
+        <a-input v-model:value="catchPet" placeholder="输入捕捉的宠物名" style="width:160px;"/>
       </p>
       <a-popover :title="skill.name" v-for="skill in actionSkill" :key="skill.id">
         <template #content>
@@ -150,7 +151,8 @@ export default defineComponent({
         petSkill: null,
         petTarget: null
       },
-      qualityMap
+      qualityMap,
+      catchPet: ''
     }
   },
   computed: {
@@ -304,6 +306,25 @@ export default defineComponent({
     sendRoundOperation() {
       this.showPlayerAction = false
       this.timeout = -1
+
+      if (this.catchPet && this.round > 1) {
+        const catchPet = this.battle.enemy.find(e => e.name.indexOf(this.catchPet) > -1)
+        if (catchPet) {
+          const catchSkill = this.$store.state.skills[2] // 下标2必为捕捉技能
+          const catchAction = {
+            playerSkill: catchSkill.id,
+            playerTarget: catchPet.id
+          }
+          const petSkills = this.$store.state.battlePet.skills
+          if (petSkills) {
+            catchAction.petSkill = petSkills[0].id
+            catchAction.petTarget = catchPet.id
+          }
+          roundMonsterOperation(catchAction)
+          return
+        }
+      }
+
       const pa = this.playerAction
       // 无目标技能缓存，自动战斗用
       this.$store.commit('setCachePlayerAction', {

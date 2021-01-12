@@ -12,12 +12,12 @@ export const qualityOptions = Object.keys(qualityMap).map(value => {
 })
 
 export const typeMap = {
-  0: '头盔',
-  1: '手套',
-  2: '鞋子',
-  3: '胸甲',
-  4: '腰带',
   5: '武器',
+  0: '头盔',
+  3: '胸甲',
+  1: '手套',
+  4: '腰带',
+  2: '鞋子',
   6: '戒指',
   7: '项链'
 }
