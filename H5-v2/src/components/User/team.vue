@@ -16,8 +16,8 @@
           [{{t.map}}]
         </label>
         <div v-if="t.haspwd">
-          <a-input v-model:value="teampwd" placeholder="队伍密码" style="width: 80px" size='small'/>
-          <a @click="() => handleJoinTeam(t.leader, true)">加入队伍</a>
+          <a-input v-model:value="t.teampwd" placeholder="队伍密码" style="width: 80px" size='small'/>
+          <a @click="() => handleJoinTeam(t.leader, true, t.teampwd)">加入队伍</a>
         </div>
         <a @click="() => handleJoinTeam(t.leader)" v-else>加入队伍</a>
       </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { createTeam, joinTeam, getTeamList } from '@/api/team'
 import { useStore } from 'vuex'
 import { message } from 'ant-design-vue'
@@ -45,13 +45,17 @@ export default defineComponent({
     const visible = computed(() => {
       return store.state.showHall
     })
-
+    watch(visible, (val) => {
+      if (val) {
+        handleGetTeamList()
+      }
+    })
     const creatdTeampwd = ref('')
     // 关闭组队大厅
     const closeHall = () => {
       store.commit('showTeamHall', false)
       creatdTeampwd.value = ''
-      teampwd.value = ''
+      handleGetTeamList()
     }
     // 创建队伍
     const handleCreateTeam = async() => {
@@ -64,19 +68,24 @@ export default defineComponent({
     })
     const handleGetTeamList = async() => {
       const { data } = await getTeamList()
+      data.map(item => {
+        if (item.haspwd) {
+          data.teampwd = ''
+        }
+      })
       state.teamList = data
     }
     // 加入队伍
     const teampwd = ref('')
-    const handleJoinTeam = async(leader, ispsw) => {
+    const handleJoinTeam = async(leader, ispsw, pwd = '') => {
       // 如果有组队密码，需要输入密码
       if (ispsw) {
-        if (!teampwd.value) {
+        if (!pwd) {
           message.error('还没输入密码')
           return
         }
       }
-      await joinTeam(leader, teampwd.value)
+      await joinTeam(leader, pwd)
       store.commit('showTeamHall', false)
     }
 
