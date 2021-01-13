@@ -1,6 +1,6 @@
 <template>
   <div class="skillDetails">
-    <div v-if="skill.consumeHp">消耗HP：{{formatPercent(skill.consumeHp)}}<span v-if="skill.reduceConsumeHp">-{{formatPercent(skill.reduceConsumeHp)}}</span></div>
+    <div v-if="skill.consumeHp">消耗HP：{{formatPercent(skill.consumeHp)}}<span v-if="skill.reduceConsumeHp">{{formatPercent(skill.reduceConsumeHp)}}</span></div>
     <div v-if="skill.consumeMp">消耗MP：{{skill.consumeMp}}<span v-if="skill.reduceConsumeMp">-{{skill.reduceConsumeMp}}</span></div>
     <div v-if="skill.attackTimes">伤害次数：{{skill.attackTimes}}<span v-if="skill.extAttackTimes">+{{skill.extAttackTimes}}</span></div>
     <div v-if="skill.ability">目标数量：{{skill.ability}}<span v-if="skill.extAbility">+{{skill.extAbility}}</span></div>

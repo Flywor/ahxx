@@ -8,7 +8,7 @@ export const qualityMap = {
 }
 
 export const qualityOptions = Object.keys(qualityMap).map(value => {
-  return { value, label: qualityMap[value].name }
+  return { value: Number(value), label: qualityMap[value].name }
 })
 
 export const typeMap = {
@@ -22,8 +22,8 @@ export const typeMap = {
   7: '项链'
 }
 
-export const weaponOptions = Object.keys(typeMap).map(value => {
-  return { value, label: typeMap[value] }
+export const weaponOptions = [5, 0, 3, 1, 4, 2, 6, 7].map(value => {
+  return { value: Number(value), label: typeMap[value] }
 })
 
 export const skillTypeMap = {
