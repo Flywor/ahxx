@@ -66,7 +66,7 @@ export default defineComponent({
     })
 
     const itemType = ref('prop')
-    const equipType = ref('5')
+    const equipType = ref(5)
     const handleGetItemList = async() => {
       const { data } = await getAllItem({ searchType: itemType.value, equipType: Number(equipType.value) })
       if (itemType.value === 'prop') {
