@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     getMarkByAffixValue(affixValue) {
-      return (AffixData.find(aff => aff.value === affixValue) || '这是个bug').mark
+      return (AffixData.find(aff => aff.value === affixValue) || {}).mark || '特殊词缀已更换'
     },
     getAttrMinMax(attrKey) {
       const { attr } = this.configEquipData

@@ -75,10 +75,13 @@ export default defineComponent({
           // 组装升级说明
           const lvUpConfig = JSON.parse(skl.lvUpConfig || '{}')
           if (lvUpConfig['consumeHp']) {
-            lvUpDesc.push(`HP消耗增加${formatPercent(lvUpConfig['consumeHp'])}`)
+            lvUpDesc.push(`HP消耗${formatPercent(lvUpConfig['consumeHp'])}`)
           }
           if (lvUpConfig['consumeMp']) {
-            lvUpDesc.push(`MP消耗增加${lvUpConfig['consumeMp']}`)
+            lvUpDesc.push(`MP消耗+${lvUpConfig['consumeMp']}`)
+          }
+          if (lvUpConfig['buffValue']) {
+            lvUpDesc.push(`buff效果+${formatPercent(lvUpConfig['buffValue'])}`)
           }
           if (lvUpConfig['atkUp']) {
             lvUpDesc.push(`物攻加成+${formatPercent(lvUpConfig['atkUp'])}`)
@@ -123,8 +126,8 @@ export default defineComponent({
             lvUpDesc.push(`目标数量+${lvUpConfig['ability']}`)
           }
           if (learned) {
-            lvUpExp = Math.pow(learned.lv * 5, 3)
-            lvUpGold = Math.pow(learned.lv * 3, 3)
+            lvUpExp = Math.pow(learned.lv * 5 + Number(lv) * 4, 3)
+            lvUpGold = Math.pow(learned.lv * 3 + Number(lv), 3)
           }
           skls.push({
             id: skl._id,

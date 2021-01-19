@@ -9,10 +9,10 @@ let ok = false
 // 查找可用服务器
 function queryEntry(username, callback) {
   pinus.init({
-    host: '8.135.60.250',
-    // host: process.env.VUE_APP_WS_IP,
-    port: 13761,
-    // port: process.env.VUE_APP_WS_PORT,
+    // host: '8.135.60.250',
+    host: process.env.VUE_APP_WS_IP,
+    // port: 13761,
+    port: process.env.VUE_APP_WS_PORT,
     log: true
   }, function() {
     pinus.request('gate.gateHandler.entry', {

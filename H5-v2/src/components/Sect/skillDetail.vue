@@ -1,10 +1,11 @@
 <template>
   <div class="skillDetails">
     <div v-if="skill.consumeHp">消耗HP：{{formatPercent(skill.consumeHp)}}<span v-if="skill.reduceConsumeHp">-{{formatPercent(skill.reduceConsumeHp)}}</span></div>
-    <div v-if="skill.consumeMp">消耗MP：{{skill.consumeMp}}<span v-if="skill.reduceConsumeMp">-{{skill.reduceConsumeMp}}</span></div>
+    <div v-if="skill.consumeMp">消耗MP：{{skill.consumeMp}}<span v-if="skill.reduceConsumeMp">+{{skill.reduceConsumeMp}}</span></div>
     <div v-if="skill.attackTimes">伤害次数：{{skill.attackTimes}}<span v-if="skill.extAttackTimes">+{{skill.extAttackTimes}}</span></div>
     <div v-if="skill.ability">目标数量：{{skill.ability}}<span v-if="skill.extAbility">+{{skill.extAbility}}</span></div>
     <div v-if="skill.round">持续回合：{{skill.round}}<span v-if="skill.extRound">+{{skill.extRound}}</span></div>
+    <div v-if="skill.buffValue">buff效果：{{formatPercent(skill.buffValue)}}<span v-if="skill.extBuffValue">+{{formatPercent(skill.extBuffValue)}}</span></div>
     <div v-if="skill.dot">回合伤害：{{skill.dot}}<span v-if="skill.extDot">+{{skill.extDot}}</span></div>
     <div v-if="skill.reviveHp">复活HP：{{formatPercent(skill.reviveHp)}}<span v-if="skill.extReviveHp">+{{formatPercent(skill.extReviveHp)}}</span></div>
     <div v-if="skill.recoveryHp">恢复HP：{{skill.recoveryHp}}<span v-if="skill.extRecoveryHp">+{{skill.extRecoveryHp}}</span></div>
