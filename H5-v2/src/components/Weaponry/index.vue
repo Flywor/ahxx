@@ -95,10 +95,14 @@ export default defineComponent({
     onMounted(() => {
       handleGetEquip()
     })
+
+    let equipData = null
+
     const sellQuality = ref(qualityOptions[0].value)
     const handleGetEquip = async() => {
       const { data } = await getEquip(1)
-      arr.equipList = data.list
+      equipData = data.list
+      filterEq()
       name.value = `装备（${data.total}/100）`
     }
     const handleDressEquip = async(id) => {
@@ -158,15 +162,13 @@ export default defineComponent({
 
     // 背包筛选
     const screen = ref('')
-    const filterEq = async(value) => {
-      if (!value) {
-        handleGetEquip()
+    const filterEq = async() => {
+      if (!screen.value && screen.value !== 0) {
+        arr.equipList = equipData
         return
       }
-      getEquip(1).then(res => {
-        arr.equipList = res.data.list.filter(item => {
-          return item.type + 1 === value
-        })
+      arr.equipList = equipData.filter(item => {
+        return item.type === Number(screen.value)
       })
     }
     return {
