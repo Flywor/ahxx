@@ -9,11 +9,17 @@ export default {
   mounted() {
     this.$loading.hide()
     window.onresize = () => {
+      this.resetREM()
       this.resetWidth()
     }
+    this.resetREM()
     this.resetWidth()
   },
   methods: {
+    resetREM() {
+      const html = document.getElementsByTagName('html')[0]
+      html.style.fontSize = `${document.documentElement.clientHeight / 750 * 100}px`
+    },
     resetWidth() {
       if (!/Android|webOS|iPhone|iPod/i.test(navigator.userAgent)) {
         const clientHeight = document.documentElement.clientHeight
@@ -23,24 +29,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-* { padding: 0; margin: 0; list-style: none; box-sizing: border-box; }
-html,
-body {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  transition: width .3s;
-}
-#app {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  background-color: #0D1117;
-  transition: background-color .3s;
-}
-</style>

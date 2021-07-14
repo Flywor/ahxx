@@ -1,6 +1,31 @@
 @import "./var.less";
 
-p {
+* {
   padding: 0;
   margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #e2e4e5;
+  border: none;
+  vertical-align: top;
+}
+html,
+body {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  transition: width .3s;
+}
+p {
+  line-height: 0;
+}
+#app {
+  height: 100%;
+  width: 100%;
+  transition: background-color .3s;
+  background-color: #0D1117;
 }

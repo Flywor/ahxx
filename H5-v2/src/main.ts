@@ -23,15 +23,17 @@ app.config.globalProperties.$loading = {
   show() {
     if (this.el) {
       this.el.style.opacity = '1'
+      this.el.style.display = 'block'
     }
   },
   hide() {
     if (this.el) {
       this.el.style.opacity = '0'
+      this.el.style.display = 'none'
     }
   }
 }
-console.log( import.meta.env.VUE_APP_WS_IP)
+
 app.use(store, key)
 app.use(router)
 app.mount('#app')

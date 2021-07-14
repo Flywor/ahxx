@@ -7,6 +7,7 @@
     <title>暗黑修仙</title>
     <style>
       #loading, #fake {
+        background: url('/static/image/xx.png') center center no-repeat;
         position: absolute;
         left: 0;
         top: 0;
@@ -16,11 +17,9 @@
         filter: blur(1px);
       }
       #loading {
-        background:url('/static/image/xx.png') center center no-repeat;
         transition: opacity .3s;
       }
       #loading #fake {
-        background:url('/static/image/xx.png') center center no-repeat;
         z-index: 99999;
         animation: fakeframe 2s ease-in infinite;
       }
