@@ -1,6 +1,6 @@
-import game from '../util/game.js'
+import game from '@/util/game'
 
-export async function sendSometing(msg) {
+export async function sendSometing(msg: { player: Array<string>, exp: number, goods: Array<string>, gold: number, coin: number }) {
   return await game.send('logic.adminHandler.sendSometing', msg)
 }
 

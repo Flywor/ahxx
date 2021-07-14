@@ -57,7 +57,7 @@ export default {
           port: port,
           log: true
         }, function() {
-          pinus.request('connector.entryHandler.entry', userdata, function(data) {
+          pinus.request('connector.entryHandler.entry', userdata, function(data: WSPack) {
             if (data.code !== 200) {
               console.error(data.msg)
               j(data)
@@ -71,7 +71,7 @@ export default {
       })
     })
   },
-  async send(route: string, data: any) {
+  async send(route: string, data?: any) {
     await sleep(() => ok)
     return new Promise((resolve, reject) => {
       pinus.request(route, data, (data: WSPack) => {

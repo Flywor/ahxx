@@ -1,7 +1,7 @@
 <template>
   <input
     class="input"
-    v-bind="$attr"
+    v-bind="$attrs"
     :value="value"
     @input="$emit('update:value', $event.target.value)"
   />
@@ -24,12 +24,13 @@ export default {
 <style lang="less" scoped>
 .input {
   padding: .08rem;
-  border: 1px solid #C9D1D9;
+  border: 1px solid @font-color;
   border-radius: 3px;
   background: transparent;
   font-size: .16rem;
+  width: 100%;
 }
 input::-webkit-input-placeholder {
-  color: #e2e4e5;
+  color: @font-color;
 }
 </style>
