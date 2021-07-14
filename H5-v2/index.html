@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="/favicon.ico">
+    <title>暗黑修仙</title>
+    <style>
+      #loading, #fake {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 9999;
+        filter: blur(1px);
+      }
+      #loading {
+        background:url('/static/image/xx.png') center center no-repeat;
+        transition: opacity .3s;
+      }
+      #loading #fake {
+        background:url('/static/image/xx.png') center center no-repeat;
+        z-index: 99999;
+        animation: fakeframe 2s ease-in infinite;
+      }
+      @keyframes fakeframe {
+        0% { transform: scale(1); opacity: .7; }
+        50% { transform: scale(1.7); opacity: 0; }
+        100% { transform: scale(1.7); opacity: 0; }
+      }
+    </style>
+    <script src="./js/lib/build/build.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      require('boot')
+    </script> 
+  </head>
+  <body>
+    <div id="loading"><div id="fake"></div></div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

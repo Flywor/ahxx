@@ -1,43 +1,46 @@
 <template>
-  <div class="appcontent">
-    <div class="router">
-      <router-view />
-    </div>
-  </div>
+  <router-view />
 </template>
-
-<script>
+<script lang="ts">
 export default {
   data() {
     return {}
+  },
+  mounted() {
+    this.$loading.hide()
+    window.onresize = () => {
+      this.resetWidth()
+    }
+    this.resetWidth()
+  },
+  methods: {
+    resetWidth() {
+      if (!/Android|webOS|iPhone|iPod/i.test(navigator.userAgent)) {
+        const clientHeight = document.documentElement.clientHeight
+        document.body.style.width = `${clientHeight / 1.7777777}px`
+      }
+    }
   }
 }
 </script>
+
 <style lang="less">
+* { padding: 0; margin: 0; list-style: none; box-sizing: border-box; }
+html,
+body {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  transition: width .3s;
+}
 #app {
-  width:  100%;
-  height:  100%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: #0D1117;
+  transition: background-color .3s;
 }
-.appcontent {
-  width:  100%;
-  height:  100%;
-  .router {
-    width: 100%;
-    height: 100%;
-  }
-}
-/*修改滚动条样式*/
-::-webkit-scrollbar{
-  width:10px;
-  height:10px;
-  /**/
-}
-// ::-webkit-scrollbar-track{
-//   background: rgb(239, 239, 239);
-//   border-radius:2px;
-// }
-// ::-webkit-scrollbar-thumb{
-//   background: #bfbfbf;
-//   border-radius:10px;
-// }
 </style>
