@@ -3,36 +3,25 @@ import App from '@/App.vue'
 import router from '@/router'
 import { store, key } from '@/store'
 import '@/theme/index.less'
+import Loading from '@/plugins/loading'
+import Msg from '@/plugins/msg'
 
 const app = createApp(App)
 
-// vue全局变量声明添加
-interface LoadingModel {
-  show: () => void
-  hide: () => void
-}
+Loading.install(app)
+Msg.install(app)
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $loading: LoadingModel
+const isMobile = /Android|webOS|iPhone|iPod/i.test(navigator.userAgent)
+const handleWinResize = () => {
+  if (!isMobile) {
+    const html = document.getElementsByTagName('html')[0]
+    html.style.fontSize = `${document.documentElement.clientHeight / 750 * 100}px`
+    const clientHeight = document.documentElement.clientHeight
+    document.body.style.width = `${clientHeight / 1.7777777}px`
   }
 }
-
-app.config.globalProperties.$loading = {
-  el: document.getElementById('loading'),
-  show() {
-    if (this.el) {
-      this.el.style.opacity = '1'
-      this.el.style.display = 'block'
-    }
-  },
-  hide() {
-    if (this.el) {
-      this.el.style.opacity = '0'
-      this.el.style.display = 'none'
-    }
-  }
-}
+window.onresize = handleWinResize
+handleWinResize()
 
 app.use(store, key)
 app.use(router)

@@ -10,9 +10,6 @@
       <p>
         <Input v-model:value="loginForm.password" placeholder="密码" type="password" />
       </p>
-      <span v-show="error">
-        {{error}}
-      </span>
       <p>
         <Button @click="handleLogin">确定</Button>
       </p>
@@ -28,9 +25,8 @@ export default {
   components: { Input, Button },
   data() {
     return {
-      error: '',
       loginForm: {
-        username: localStorage.getItem('username'),
+        username: localStorage.getItem('username') || '',
         password: ''
       }
     }
@@ -38,7 +34,6 @@ export default {
   methods: {
     async handleLogin() {
       this.$loading.show()
-      this.error = ''
       try {
         const { loginForm } = this
         if (!loginForm.username) {
@@ -53,7 +48,7 @@ export default {
           name: 'home'
         })
       } catch (e) {
-        this.error = e.message || '飞升失败，有可能是阁下的账号密码问题，也有可能是仙界没开……'
+        this.$msg.show(e.message || '飞升失败，有可能是阁下的账号密码问题，也有可能是仙界没开……')
       }
       this.$loading.hide()
     }

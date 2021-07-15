@@ -1,17 +1,16 @@
 <template>
-  1111
+  <div class="msg"></div>
 </template>
 <script lang="ts">
 export default {
-  name: 'home',
+  name: 'Battle',
   data() {
     return {}
-  },
-  mounted() {
-    console.log(this.$msg.show('啊实打实'))
   }
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.msg {
+}
 </style>
