@@ -1,4 +1,4 @@
-import { App } from "vue"
+import { App } from 'vue'
 
 // vue全局变量声明添加
 interface LoadingModel {

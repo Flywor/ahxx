@@ -1,4 +1,4 @@
-import { App, createApp, h } from "vue"
+import { App, createApp } from 'vue'
 import Msg from '@/components/Msg.vue'
 
 // vue全局变量声明添加

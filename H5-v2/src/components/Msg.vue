@@ -25,7 +25,7 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 9999;
+  z-index: 999999;
   transform: translate(-50%, -50%);
   border: 1px solid @font-color;
   background: #172a42;

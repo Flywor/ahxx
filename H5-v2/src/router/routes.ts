@@ -10,8 +10,15 @@ export default [
     path: '/home',
     name: 'home',
     meta: {
-      name: '首页'
+      name: '洞天福地'
     },
     component: () => import('@/views/home.vue')
+  }, {
+    path: '/battle',
+    name: 'battle',
+    meta: {
+      name: '战斗'
+    },
+    component: () => import('@/views/battle.vue')
   }
 ]

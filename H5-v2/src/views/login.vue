@@ -67,7 +67,7 @@ export default {
   position: relative;
   &::before {
     content: '';
-    background: url(/static/image/bg.jpg) center center;
+    background: url(/static/image/bg4.jpg) center center;
     background-size: auto 100%;
     filter: blur(5px);
     position: absolute;
