@@ -6,6 +6,9 @@ export default {
   name: 'home',
   data() {
     return {}
+  },
+  mounted() {
+    console.log(this.$msg.show('啊实打实'))
   }
 }
 </script>
