@@ -6,5 +6,7 @@ declare module '*.vue' {
 
 // window全局变量声明添加
 interface Window {
-  pinus: any // pinus demo给出的实例，没有types版本
+  showShop: any
+  token: any 
+  echarts: any
 }

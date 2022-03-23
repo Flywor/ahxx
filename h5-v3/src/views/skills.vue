@@ -19,7 +19,7 @@
         </a-list-item>
       </template>
     </a-list>
-    <a-alert message="技能熟练度与技能威力直接挂钩，最高300%" type="info" />
+    <a-alert message="技能熟练度与技能威力直接挂钩，最高200%" type="info" />
   </div>
 </template>
 <script setup lang="ts">
@@ -29,9 +29,9 @@ import { store } from '@/store'
 const skillList = computed(() => store.state.skillList)
 
 const getPower = (skl: any) => {
-  let sklPower = skl.maturity / 50000 + 0.01
-  if (sklPower > 3) {
-    sklPower = 3
+  let sklPower = skl.maturity / 30000 + 1
+  if (sklPower > 2) {
+    sklPower = 2
   }
   return (sklPower * 100).toFixed(2)
 }

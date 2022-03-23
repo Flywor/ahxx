@@ -6,31 +6,38 @@
         :key="unit.id || `${i}-${ii}`"
         class="td"
         :style="{
-          background: (unit.x < 0 || unit.y < 0 || unit.x > pos.sizeX || unit.y > pos.sizeY) ? '': '#efefef' 
+          background: (unit.x < 0 || unit.y < 0 || unit.x > pos.sizeX || unit.y > pos.sizeY) ? '': 'rgb(243 243 243 / 52%)' 
         }"
         @click="() => handleUnitClick(unit)"
       >
       </div>
     </div>
-    <a-tooltip
-      v-for="unit in units"
-      :key="unit.id "
-    >
-      <template #title>Lv.{{unit.lv}} {{unit.name}}</template>
+    <transition-group>
       <div
+        v-for="unit in units"
+        :key="unit.id"
         :class="`unit ${getHurtEffect(unit)}`"
         :style="{
           left: `${(unit.y - startY) * (state.mapWidth / mapSize)}px`,
-          top: `${(unit.x - startX) * (state.mapWidth / mapSize)}px`
+          top: `${(unit.x - startX) * (state.mapWidth / mapSize)}px`,
+          transform: `scale(${unit.lv > 999 ? 2: 1})`
         }"
         @click="() => handleUnitClick(unit)"
       >
-        <div class="hp">
+        <div v-if="unit.differ_hp_c < 0" :class="`hphurt hphurt${unit.classChange}`">
+          {{unit.differ_hp_c}}
+        </div>
+        <!-- <div class="vip" v-if="unit.vip > 0">V{{unit.vip}}</div> -->
+        <div class="hp" v-if="unit.hp_c">
           <div :style="{ width: `${unit.per}%`, background: unit.percolor }"/>
+        </div>
+        <div style="font-size:10px;margin-bottom: -10px;">
+          <label v-if="unit.hp_c">LV.{{unit.lv}}</label>
+          {{unit.name}}
         </div>
         <UnitIconComp :type="unit.type" />
       </div>
-    </a-tooltip>
+    </transition-group>
   </div>
 </template>
 <script setup lang="ts">
@@ -67,30 +74,26 @@ const mapInfo = computed(() => {
   return result
 })
 
-let temp = { id: 0, hp_c: 0 }
 let tempI = true
 const getHurtEffect = (unit: any) => {
-  if (unit.id != temp.id) return ''
-  let effct = ''
-  if (unit.hp_c > temp.hp_c) {
-    effct = 'recovery'
+  if (unit.differ_hp_c > 0) {
+    return `recovery${unit.classChange}`
   }
-  if (unit.hp_c < temp.hp_c) {
-    effct = 'hurt'
+  if (unit.differ_hp_c < 0) {
+    return `hurt${unit.classChange}`
   }
-  if (effct) {
-    temp = unit
-  } 
-  tempI = !tempI
-  return `${effct}${tempI?0:1}`
 }
 
+let lastDo = 0
 const handleUnitClick = (unit: any) => {
-  if (unit.id) {
+  if (Date.now() - lastDo < 610) {
+    return
+  }
+  lastDo = Date.now()
+  if (unit.id && unit.distance <= player.value.attackDistance) {
     if (unit.name == player.value.username) {
       return
     }
-    temp = unit
     request({
       url: '/hey',
       method: 'post',
@@ -128,22 +131,41 @@ const handleUnitClick = (unit: any) => {
       }
     }
   }
+  .v-enter-to {
+    opacity: 1;
+  }
+  .v-enter-active {
+    transform: rotate(180deg);
+  }
+  .v-leave-to, .v-enter-active {
+    opacity: 0;
+  }
   .unit {
     position: absolute;
     font-size: 26px;
-    transition: left .3s, top .3s;
+    transition: all .3s;
+    text-align: center;
     .hp {
       height: 2px;
       position: relative;
       width: 70%;
       margin: 0 auto;
+      background: #d6d6d6;
       & > div {
         position: absolute;
         left: 0;
         top: 0;
         height: 100%;
-        transition: width .3s;
       }
+    }
+    .vip {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      font-size: 12px;
+      border-radius: 100%;
+      color: #ffa51e;
+      font-family: monospace;
     }
   }
   .unit.hurt0  {
@@ -167,6 +189,34 @@ const handleUnitClick = (unit: any) => {
     40% { transform: translate(0, 0); }
     70% { transform: translate(0, -5px); color: red; }
     100% { transform: translate(-5px, -5px); }
+  }
+  .hphurt {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: red;
+    opacity: 0;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+  }
+  .hphurt0  {
+    animation: hphurt0frame .2s 1;
+  }
+  .hphurt1  {
+    animation: hphurt1frame .2s 1;
+  }
+  @keyframes hphurt0frame {
+    0% { transform: translate(0, 0); top: -20px; opacity: 1; }
+    40% { transform: translate(0, 4px); top: -30px; opacity: 0.4; }
+    70% { transform: translate(0, 7px); top: -40px; opacity: 0.7; }
+    100% { transform: translate(0, 10px); top: -50px; opacity: 0; }
+  }
+  @keyframes hphurt1frame {
+    0% { transform: translate(0, 0); top: -20px; opacity: 1; }
+    40% { transform: translate(0, 4px); top: -30px; opacity: 0.4; }
+    70% { transform: translate(0, 7px); top: -40px; opacity: 0.7; }
+    100% { transform: translate(0, 10px); top: -50px; opacity: 0; }
   }
 }
 </style>

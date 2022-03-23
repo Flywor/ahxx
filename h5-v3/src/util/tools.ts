@@ -1,15 +1,21 @@
-export const randomNum = function(minNum: number, maxNum: number, exclude: Array<number>): number | null {
+export const randomNum = function(minNum: number, maxNum: number, exclude?: Array<number>): number | null {
   let result = Math.round(Math.random() * (maxNum - minNum + 1) + minNum)
-  if (exclude.length >= (maxNum - minNum)) {
-    return null
+  if (exclude && exclude.length >= (maxNum - minNum)) {
+    return 0
   }
-  if (exclude.includes(result)) {
+  if (exclude?.includes(result)) {
     const rs = randomNum(minNum, maxNum, exclude)
     if (rs) {
       result = rs
     } else {
-      return null
+      return 0
     }
+  }
+  if (result > maxNum) {
+    result = maxNum
+  }
+  if (result < minNum) {
+    result = minNum
   }
   return result
 }

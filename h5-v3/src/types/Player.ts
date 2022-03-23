@@ -6,6 +6,12 @@ export default class Player {
   y: number = 0
   // 等级
   lv: number = 0
+  // 会员等级
+  vip: number = 0
+  // 移速
+  moveSpeed: number = 0
+  // 攻速
+  attackSpeed: number = 0
   // 当前经验
   exp: number = 0
   // 金币
@@ -14,8 +20,10 @@ export default class Player {
   coin: number = 0
   // 血量
   hp: number = 0
+  hp_c: number = 0
   // 蓝量
   mp: number = 0
+  mp_c: number = 0
   // 物攻
   minAtk: number = 0
   maxAtk: number = 0

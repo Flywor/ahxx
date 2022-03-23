@@ -14,8 +14,15 @@
         {{error}}
       </span>
       <p>
-        <a-button @click="handleLogin">确定</a-button>
+        <a-button style="width:100%;" type="primary" @click="handleLogin">
+          直接登录用不着注册按钮比较长好点一些
+        </a-button>
       </p>
+      <p>
+        官方Q群：871302385  点击不会复制得手动
+      </p>
+      <p>广告位招租</p>
+      <p>用了金坷垃，大家都爱他！</p>
     </div>
   </div>
 </template>
@@ -49,6 +56,7 @@ export default {
         data: loginForm
       })
       if (status === 200) {
+        window.token = data
         localStorage.setItem('username', loginForm.username)
         localStorage.setItem('token', data)
         this.$router.push({
@@ -74,7 +82,6 @@ export default {
   position: relative;
   &::before {
     content: '';
-    background: url(/static/image/bg.jpg) center center;
     background-size: auto 100%;
     filter: blur(5px);
     position: absolute;

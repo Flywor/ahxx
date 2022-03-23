@@ -25,7 +25,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist',
+    outDir: 'www',
     assetsDir: 'static'
   },
   plugins: [vue(), compression()]
